@@ -1,0 +1,11 @@
+2025-05-22 18:32:20 - --- KẾT THÚC Log xử lý file xuat hàng: xuatHang.csv ---
+2025-05-22 18:32:20 - Dòng 2 file 'xuatHang.csv', Mã SP 'SP002': Xuất thành công 15. Tồn mới: 65.
+2025-05-22 18:32:20 - Dòng 3 file 'xuatHang.csv', Mã SP 'SP006': Xuất thành công 40. Tồn mới: 120.
+2025-05-22 18:32:20 - Dòng 4 file 'xuatHang.csv', Mã SP 'SP004': Xuất thành công 20. Tồn mới: 75.
+2025-05-22 18:32:20 - Dòng 5 file 'xuatHang.csv', Mã SP 'SP010': Xuất thành công 10. Tồn mới: 25.
+2025-05-22 18:32:20 - Dòng 6 file 'xuatHang.csv', Mã SP 'SP019': Xuất thành công 50. Tồn mới: 100.
+2025-05-22 18:32:20 - Dòng 7 file 'xuatHang.csv', Mã SP 'SP007': Xuất thành công 12. Tồn mới: 58.
+2025-05-22 18:32:20 - Dòng 8 file 'xuatHang.csv', Mã SP 'SP012': Xuất thành công 25. Tồn mới: 25.
+2025-05-22 18:32:20 - Dòng 9 file 'xuatHang.csv', Mã SP 'SP021': Xuất thành công 30. Tồn mới: 40.
+2025-05-22 18:32:20 - Dòng 10 file 'xuatHang.csv', Mã SP 'SP026': Xuất thành công 18. Tồn mới: 42.
+2025-05-22 18:32:24 - Truy cập lịch sử giao dịch: Hiển thị thành công từ lichsugiaodich.txt.
