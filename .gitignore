@@ -3,13 +3,3 @@
 
 # Các file cache của Python
 __pycache__/
-
-# Database files
-*.db
-*.sqlite3
-
-# Log files
-*.log
-
-# Environment variables (nếu có)
-.env
