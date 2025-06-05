@@ -1,0 +1,17 @@
+2025-06-05 23:39:01 - Dừng server web MiniVentory.
+2025-06-05 23:42:15 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 23:50:19 - Dừng server web MiniVentory.
+2025-06-05 23:50:22 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 23:51:15 - Dừng server web MiniVentory.
+2025-06-05 23:51:17 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 23:53:09 - Dừng server web MiniVentory.
+2025-06-05 23:53:10 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 23:55:07 - Dừng server web MiniVentory.
+2025-06-05 23:55:08 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 23:56:58 - Dừng server web MiniVentory.
+2025-06-05 23:57:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-06 00:01:35 - Dừng server web MiniVentory.
+2025-06-06 00:01:36 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-06 00:05:11 - Dừng server web MiniVentory.
+2025-06-06 00:05:12 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-06 00:05:41 - Dừng server web MiniVentory.
