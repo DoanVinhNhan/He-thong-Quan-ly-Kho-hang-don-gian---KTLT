@@ -101,7 +101,7 @@ class MiniVentoryRequestHandler(BaseHTTPRequestHandler):
                         <p class="stat-value-currency">{tmpl.format_currency(stats['current_warehouse_value'])}</p>
                     </div>
                     <div class="stat-card">
-                        <h4>Tổng doanh thu (Xuất)</h4>
+                        <h4>Tổng doanh thu</h4>
                         <p class="stat-value-currency">{tmpl.format_currency(stats['total_revenue'])}</p>
                     </div>
                 </div>
