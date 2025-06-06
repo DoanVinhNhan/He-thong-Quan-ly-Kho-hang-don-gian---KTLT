@@ -15,7 +15,7 @@ def db_get_low_stock_products(threshold):
     except (ValueError, TypeError): 
         return []
     
-    query = "SELECT id, name, sku, current_stock, price FROM products WHERE current_stock <= ? ORDER BY current_stock ASC"
+    query = "SELECT id, name, sku, unit_of_measure, current_stock, price, description FROM products WHERE current_stock <= ? ORDER BY current_stock ASC, name ASC"
     products = [dict(row) for row in conn.execute(query, (valid_threshold,)).fetchall()]
     conn.close()
     return products
@@ -44,34 +44,62 @@ def db_get_revenue_data(start_date_str, end_date_str, group_by='day'):
 
 def db_get_product_flow_data(product_id, start_date_str, end_date_str, group_by='day'):
     """Lấy dữ liệu nhập/xuất của một sản phẩm cụ thể theo thời gian."""
-    # Tương tự như hàm trên, xây dựng câu truy vấn động
     conn = get_db_connection()
     params = [product_id]
-    #... (code xây dựng query)
-    # query = f"..."
-    # data = [dict(row) for row in conn.execute(query, tuple(params)).fetchall()]
-    # conn.close()
-    # return data
-    pass # Giả định đã có code
+    query_conditions = ["st.product_id = ?"]
+    if start_date_str:
+        query_conditions.append("strftime('%Y-%m-%d', st.timestamp) >= ?")
+        params.append(start_date_str)
+    if end_date_str:
+        query_conditions.append("strftime('%Y-%m-%d', st.timestamp) <= ?")
+        params.append(end_date_str)
+        
+    where_clause = " AND ".join(query_conditions)
+    date_format_sqlite = '%Y-%m-%d' if group_by == 'day' else '%Y-%m'
+    query = f"SELECT strftime('{date_format_sqlite}', st.timestamp) as period, st.transaction_type, SUM(st.quantity) as total_quantity FROM stock_transactions st WHERE {where_clause} GROUP BY period, st.transaction_type ORDER BY period ASC"
+    
+    data = [dict(row) for row in conn.execute(query, tuple(params)).fetchall()]
+    conn.close()
+    return data
 
 def db_get_revenue_by_product(start_date_str, end_date_str):
     """Lấy tổng doanh thu theo từng sản phẩm trong khoảng thời gian."""
-    # Tương tự, xây dựng câu truy vấn động để lấy doanh thu theo sản phẩm
     conn = get_db_connection()
-    #... (code xây dựng query)
-    # query = f""" ... """
-    # data = [dict(row) for row in conn.execute(query, tuple(params)).fetchall()]
-    # conn.close()
-    # return data
-    pass # Giả định đã có code
+    params = []
+    query_conditions = ["st.transaction_type = 'OUT'"]
+
+    if start_date_str:
+        query_conditions.append("strftime('%Y-%m-%d', st.timestamp) >= ?")
+        params.append(start_date_str)
+    if end_date_str:
+        query_conditions.append("strftime('%Y-%m-%d', st.timestamp) <= ?")
+        params.append(end_date_str)
+    
+    where_clause = " AND ".join(query_conditions)
+    
+    query = f"""
+        SELECT p.sku, p.name as product_name, SUM(st.total_amount) as total_revenue, SUM(st.quantity) as total_quantity_sold
+        FROM stock_transactions st
+        JOIN products p ON st.product_id = p.id
+        WHERE {where_clause}
+        GROUP BY p.id, p.sku, p.name
+        HAVING SUM(st.total_amount) > 0
+        ORDER BY total_revenue DESC
+    """
+    data = [dict(row) for row in conn.execute(query, tuple(params)).fetchall()]
+    conn.close()
+    return data
 
 def db_get_dashboard_stats():
     """Lấy các thống kê chính cho trang chủ (dashboard)."""
     conn = get_db_connection()
     cursor = conn.cursor()
     stats = {
-        'total_products': 0, 'total_in_transactions': 0, 'total_out_transactions': 0,
-        'current_warehouse_value': 0, 'total_revenue': 0
+        'total_products': 0,
+        'total_in_transactions': 0,
+        'total_out_transactions': 0,
+        'current_warehouse_value': 0,
+        'total_revenue': 0
     }
     try:
         # 1. Tổng số sản phẩm
