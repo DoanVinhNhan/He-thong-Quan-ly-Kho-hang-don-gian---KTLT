@@ -1,3 +1,71 @@
+2025-06-04 21:46:37 - Khởi động server web với SQLite DB 'miniventory_sqlite.db'.
+2025-06-04 21:53:00 - Dừng server web.
+2025-06-04 21:54:34 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 21:55:12 - Xem lịch sử (file text): File 'lichsugiaodich.txt' trống hoặc không tồn tại.
+2025-06-04 22:03:49 - Dừng server web MiniVentory.
+2025-06-04 22:03:51 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 22:17:39 - Dừng server web MiniVentory.
+2025-06-04 22:19:39 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 22:24:08 - Dừng server web MiniVentory.
+2025-06-04 22:24:09 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 22:35:45 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 22:37:49 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 22:39:09 - Dừng server web MiniVentory.
+2025-06-04 22:40:11 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 22:51:18 - Thêm sản phẩm DB (web): SKU 'SP073'. Thành công.
+2025-06-04 22:53:09 - Giao dịch web IN cho SKU SP042 thành công. Giao dịch IN cho 'Acecook Gia vị lẩu plus' thành công. Tồn kho mới: 48.00
+2025-06-04 22:53:33 - Giao dịch web OUT cho SKU SP029 thành công. Giao dịch OUT cho 'Acecook Trứng vịt cao cấp' thành công. Tồn kho mới: 93.00
+2025-06-04 23:05:07 - Dừng server web MiniVentory.
+2025-06-04 23:06:12 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 23:08:02 - Dừng server web MiniVentory.
+2025-06-04 23:14:03 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 23:15:45 - Dừng server web MiniVentory.
+2025-06-04 23:15:46 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 23:19:02 - Dừng server web MiniVentory.
+2025-06-04 23:19:09 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 23:24:10 - Dừng server web MiniVentory.
+2025-06-04 23:24:12 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 23:29:28 - Dừng server web MiniVentory.
+2025-06-04 23:29:37 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 23:30:47 - Dừng server web MiniVentory.
+2025-06-04 23:30:49 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 23:35:28 - Dừng server web MiniVentory.
+2025-06-04 23:37:03 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-04 23:50:45 - Dừng server web MiniVentory.
+2025-06-04 23:57:40 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-05 09:04:06 - Dừng server web MiniVentory.
+2025-06-05 09:04:22 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-05 09:08:58 - Dừng server web MiniVentory.
+2025-06-05 09:09:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-05 09:12:56 - Dừng server web MiniVentory.
+2025-06-05 09:13:13 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-05 09:13:44 - Dừng server web MiniVentory.
+2025-06-05 09:14:18 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-05 09:14:20 - Dừng server web MiniVentory.
+2025-06-05 09:14:44 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
+2025-06-05 09:50:34 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 09:50:34 - Lỗi nghiêm trọng khi khởi động server: [Errno 48] Address already in use
+2025-06-05 09:51:38 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 09:53:07 - Dừng server web MiniVentory.
+2025-06-05 09:53:08 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 09:54:25 - Dừng server web MiniVentory.
+2025-06-05 09:54:26 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 09:58:33 - Dừng server web MiniVentory.
+2025-06-05 09:58:56 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 10:02:58 - Dừng server web MiniVentory.
+2025-06-05 10:03:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 10:06:09 - Dừng server web MiniVentory.
+2025-06-05 10:06:10 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 10:08:40 - Dừng server web MiniVentory.
+2025-06-05 10:13:31 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 10:13:41 - Dừng server web MiniVentory.
+2025-06-05 10:16:34 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 10:39:58 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 10:39:58 - Lỗi nghiêm trọng khi khởi động server: [Errno 48] Address already in use
+2025-06-05 10:40:31 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 11:02:32 - Dừng server web MiniVentory.
+2025-06-05 11:21:08 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-05 21:37:09 - Thêm sản phẩm DB (web): SKU 'SP-30820'. Thành công.
 2025-06-05 23:39:01 - Dừng server web MiniVentory.
 2025-06-05 23:42:15 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-05 23:50:19 - Dừng server web MiniVentory.
