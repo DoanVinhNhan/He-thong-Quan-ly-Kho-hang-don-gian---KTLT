@@ -1,24 +1,24 @@
 # Hệ thống Quản lý Kho hàng đơn giản (MiniVentory)
 
-Đây là đồ án môn học **Kỹ thuật Lập trình (MI3310)**, một ứng dụng web quản lý kho hàng đơn giản được xây dựng hoàn chỉnh bằng ngôn ngữ Python. Dự án không sử dụng các web framework phức tạp mà thay vào đó tận dụng các thư viện chuẩn như `http.server` và `sqlite3`.
+Đây là Bài tập lớn môn học **Kỹ thuật Lập trình (MI3310)**, một ứng dụng web quản lý kho hàng đơn giản được xây dựng hoàn chỉnh bằng ngôn ngữ Python. Dự án không sử dụng các web framework phức tạp mà thay vào đó tận dụng các thư viện chuẩn như `http.server` và `sqlite3`.
 
-[cite_start]Mục tiêu của dự án là áp dụng các kiến thức nền tảng của môn học để xây dựng một hệ thống có cấu trúc tốt, rõ ràng, dễ bảo trì, đáp ứng các nhu cầu thực tiễn về một công cụ quản lý kho hàng tinh gọn và hiệu quả. 
+Mục tiêu của dự án là áp dụng các kiến thức nền tảng của môn học để xây dựng một hệ thống có cấu trúc tốt, rõ ràng, dễ bảo trì, đáp ứng các nhu cầu thực tiễn về một công cụ quản lý kho hàng tinh gọn và hiệu quả. 
 
 ### Thông tin Đồ án
-* [cite_start]**Môn học:** Kỹ thuật Lập trình - MI3310 
-* [cite_start]**Học kỳ:** 2024.2 
-* **Giảng viên hướng dẫn:** TS. [cite_start]Vũ Thành Nam 
+* **Môn học:** Kỹ thuật Lập trình - MI3310 
+* **Học kỳ:** 2024.2 
+* **Giảng viên hướng dẫn:** TS. Vũ Thành Nam 
 * **Nhóm sinh viên:**
-    * [cite_start]Nguyễn Thị Huệ - 20237439 
-    * [cite_start]Đoàn Vĩnh Nhân - 20237376 
+    * Nguyễn Thị Huệ - 20237439 
+    * Đoàn Vĩnh Nhân - 20237376 
 
 ## Kiến trúc Hệ thống
 
-[cite_start]Dự án được thiết kế theo kiến trúc 3 lớp (3-Layer Architecture) và áp dụng nguyên tắc thiết kế module hóa để đảm bảo tính rõ ràng, dễ bảo trì và mở rộng. 
+Dự án được thiết kế theo kiến trúc 3 lớp (3-Layer Architecture) và áp dụng nguyên tắc thiết kế module hóa để đảm bảo tính rõ ràng, dễ bảo trì và mở rộng. 
 
-1.  [cite_start]**Lớp Trình bày (Presentation Layer):** Gồm các file `handlers.py`, chịu trách nhiệm xử lý request HTTP từ người dùng và tạo ra giao diện HTML để hiển thị. 
-2.  [cite_start]**Lớp Logic nghiệp vụ (Business Logic Layer):** Gồm các file `logic.py`, chứa các quy tắc, thuật toán, và logic nghiệp vụ cốt lõi của hệ thống. 
-3.  [cite_start]**Lớp Truy cập Dữ liệu (Data Access Layer):** Gồm các file `database.py`, là nơi duy nhất chịu trách nhiệm giao tiếp trực tiếp với cơ sở dữ liệu SQLite. 
+1.  **Lớp Trình bày (Presentation Layer):** Gồm các file `handlers.py`, chịu trách nhiệm xử lý request HTTP từ người dùng và tạo ra giao diện HTML để hiển thị. 
+2.  **Lớp Logic nghiệp vụ (Business Logic Layer):** Gồm các file `logic.py`, chứa các quy tắc, thuật toán, và logic nghiệp vụ cốt lõi của hệ thống. 
+3.  **Lớp Truy cập Dữ liệu (Data Access Layer):** Gồm các file `database.py`, là nơi duy nhất chịu trách nhiệm giao tiếp trực tiếp với cơ sở dữ liệu SQLite. 
 
 ## Tính năng chính
 
