@@ -1,132 +1,144 @@
-# /src/backend/report/database.py
-# Chứa các hàm truy vấn cơ sở dữ liệu dành riêng cho việc tạo báo cáo.
-# Các hàm này thường phức tạp hơn, liên quan đến tổng hợp (aggregation),
-# nhóm (grouping) và nối (joining) các bảng.
+# /src/backend/report/handlers.py
+# Chứa các hàm xử lý request cho các trang báo cáo và thống kê.
 
-from ..common.database_base import get_db_connection
+import datetime
+from . import logic as logic_report
+from . import database as db_report
+from ..product.database import db_get_all_products, db_get_product_by_sku
+from ..common import html_templates as tmpl
+from ..common import chart_utils as chart
 
-def db_get_low_stock_products(threshold): 
-    """Lấy danh sách sản phẩm có tồn kho thấp hơn hoặc bằng ngưỡng cho trước."""
-    conn = get_db_connection()
-    try:
-        # Đảm bảo ngưỡng là một số nguyên hợp lệ
-        valid_threshold = int(threshold)
-        if valid_threshold < 0: return []
-    except (ValueError, TypeError): 
-        return []
+def handle_get_low_stock_report(handler, query_params):
+    """Xử lý GET request cho báo cáo sản phẩm sắp hết hàng."""
+    page_title = "Báo cáo Sản phẩm Sắp hết hàng"
+    # Lấy ngưỡng tìm kiếm từ URL, mặc định là 10.
+    current_threshold_search = query_params.get('threshold_value', ['10'])[0] 
     
-    query = "SELECT id, name, sku, unit_of_measure, current_stock, price, description FROM products WHERE current_stock <= ? ORDER BY current_stock ASC, name ASC"
-    products = [dict(row) for row in conn.execute(query, (valid_threshold,)).fetchall()]
-    conn.close()
-    return products
+    # Tạo form để người dùng nhập ngưỡng.
+    body_content = f"""
+    <form method="GET" action="/report/low_stock">
+        <div><label for="threshold_value">Ngưỡng tồn kho (nhỏ hơn hoặc bằng):</label>
+        <input type="number" id="threshold_value" name="threshold_value" value="{current_threshold_search}" min="0" step="1" required></div>
+        <input type="submit" name="search_submit" value="Xem báo cáo">
+    </form><hr class="form-section-divider">"""
 
-def db_get_revenue_data(start_date_str, end_date_str, group_by='day'):
-    """Lấy dữ liệu doanh thu (từ các giao dịch 'OUT') theo thời gian."""
-    conn = get_db_connection()
-    params = []
-    # Xây dựng câu lệnh WHERE một cách linh hoạt dựa trên các bộ lọc được cung cấp
-    query_conditions = ["transaction_type = 'OUT'"]
-    if start_date_str:
-        query_conditions.append("strftime('%Y-%m-%d', timestamp) >= ?")
-        params.append(start_date_str)
-    if end_date_str:
-        query_conditions.append("strftime('%Y-%m-%d', timestamp) <= ?")
-        params.append(end_date_str)
-    
-    where_clause = " AND ".join(query_conditions)
-    # Định dạng ngày để nhóm (GROUP BY) theo ngày hoặc tháng
-    date_format_sqlite = '%Y-%m-%d' if group_by == 'day' else '%Y-%m'
-    query = f"SELECT strftime('{date_format_sqlite}', timestamp) as period, SUM(total_amount) as revenue FROM stock_transactions WHERE {where_clause} GROUP BY period ORDER BY period ASC"
-    
-    data = [dict(row) for row in conn.execute(query, tuple(params)).fetchall()]
-    conn.close()
-    return data
-
-def db_get_product_flow_data(product_id, start_date_str, end_date_str, group_by='day'):
-    """Lấy dữ liệu nhập/xuất của một sản phẩm cụ thể theo thời gian."""
-    conn = get_db_connection()
-    params = [product_id]
-    query_conditions = ["st.product_id = ?"]
-    if start_date_str:
-        query_conditions.append("strftime('%Y-%m-%d', st.timestamp) >= ?")
-        params.append(start_date_str)
-    if end_date_str:
-        query_conditions.append("strftime('%Y-%m-%d', st.timestamp) <= ?")
-        params.append(end_date_str)
+    # Chỉ xử lý và hiển thị kết quả khi người dùng nhấn nút "Xem báo cáo".
+    if 'search_submit' in query_params:
+        threshold_str = query_params.get('threshold_value', [''])[0]
+        # Gọi lớp logic để lấy dữ liệu.
+        low_stock_products, low_stock_msg = logic_report.liet_ke_san_pham_sap_het_hang(threshold_str)
+        body_content += f"<div class='message { 'success' if low_stock_products else 'info' }'>{low_stock_msg}</div>"
         
-    where_clause = " AND ".join(query_conditions)
-    date_format_sqlite = '%Y-%m-%d' if group_by == 'day' else '%Y-%m'
-    query = f"SELECT strftime('{date_format_sqlite}', st.timestamp) as period, st.transaction_type, SUM(st.quantity) as total_quantity FROM stock_transactions st WHERE {where_clause} GROUP BY period, st.transaction_type ORDER BY period ASC"
+        # Nếu có sản phẩm, hiển thị dưới dạng bảng.
+        if low_stock_products:
+            table_rows = ""
+            for p_item in low_stock_products:
+                table_rows += f"""<tr><td>{p_item.get('sku','N/A')}</td><td>{p_item.get('name','N/A')}</td>
+                    <td>{p_item.get('current_stock','N/A')}</td><td>{p_item.get('unit_of_measure','N/A')}</td>
+                    <td>{tmpl.format_currency(p_item.get('price','N/A'))}</td></tr>"""
+            body_content += f"""<h4>Kết quả: Sản phẩm có tồn kho &lt;= {threshold_str}</h4>
+                <table><thead><tr><th>Mã SKU</th><th>Tên SP</th><th>Tồn kho</th><th>ĐVT</th><th>Đơn giá</th></tr></thead>
+                <tbody>{table_rows}</tbody></table>"""
+    else:
+        body_content += "<p>Nhập ngưỡng tồn kho và nhấn 'Xem báo cáo'.</p>"
     
-    data = [dict(row) for row in conn.execute(query, tuple(params)).fetchall()]
-    conn.close()
-    return data
+    return page_title, body_content
 
-def db_get_revenue_by_product(start_date_str, end_date_str):
-    """Lấy tổng doanh thu theo từng sản phẩm trong khoảng thời gian."""
-    conn = get_db_connection()
-    params = []
-    query_conditions = ["st.transaction_type = 'OUT'"]
-
-    if start_date_str:
-        query_conditions.append("strftime('%Y-%m-%d', st.timestamp) >= ?")
-        params.append(start_date_str)
-    if end_date_str:
-        query_conditions.append("strftime('%Y-%m-%d', st.timestamp) <= ?")
-        params.append(end_date_str)
+def handle_get_charts_report(handler, query_params):
+    """Xử lý GET request cho trang thống kê và biểu đồ."""
+    page_title = "Thống kê & Báo cáo"
+    report_type = query_params.get('report_type', ['revenue_by_time'])[0]
+    default_end_date = datetime.date.today()
+    default_start_date = default_end_date - datetime.timedelta(days=30)
     
-    where_clause = " AND ".join(query_conditions)
+    start_date_filter = query_params.get('start_date', [default_start_date.isoformat()])[0]
+    end_date_filter = query_params.get('end_date', [default_end_date.isoformat()])[0]
+    group_by = query_params.get('group_by', ['day'])[0]
+    selected_sku_flow = query_params.get('product_sku_flow', [''])[0]
+
+    body_content = f"""
+    <form method="GET" action="/reports_charts" style="margin-bottom:30px; padding:15px; border:1px solid #ddd; border-radius:5px;">
+        <h3>Tùy chọn báo cáo:</h3>
+        <div style="margin-bottom:15px;">
+            <label for="report_type_select">Loại báo cáo:</label>
+            <select name="report_type" id="report_type_select" onchange="this.form.submit()">
+                <option value="revenue_by_time" {'selected' if report_type == 'revenue_by_time' else ''}>Doanh thu theo thời gian</option>
+                <option value="product_flow" {'selected' if report_type == 'product_flow' else ''}>Xuất/Nhập theo sản phẩm</option>
+                <option value="revenue_by_product" {'selected' if report_type == 'revenue_by_product' else ''}>Doanh thu theo sản phẩm</option>
+            </select>
+        </div>
+        <div style="display:flex; gap: 20px; flex-wrap:wrap; align-items:flex-end;">
+            <div><label for="start_date">Từ ngày:</label><input type="date" id="start_date" name="start_date" value="{start_date_filter}"></div>
+            <div><label for="end_date">Đến ngày:</label><input type="date" id="end_date" name="end_date" value="{end_date_filter}"></div>"""
     
-    query = f"""
-        SELECT p.sku, p.name as product_name, SUM(st.total_amount) as total_revenue, SUM(st.quantity) as total_quantity_sold
-        FROM stock_transactions st
-        JOIN products p ON st.product_id = p.id
-        WHERE {where_clause}
-        GROUP BY p.id, p.sku, p.name
-        HAVING SUM(st.total_amount) > 0
-        ORDER BY total_revenue DESC
-    """
-    data = [dict(row) for row in conn.execute(query, tuple(params)).fetchall()]
-    conn.close()
-    return data
+    if report_type in ['revenue_by_time', 'product_flow']:
+        body_content += f"""<div><label for="group_by">Nhóm theo:</label>
+            <select name="group_by" id="group_by">
+                <option value="day" {'selected' if group_by == 'day' else ''}>Ngày</option>
+                <option value="month" {'selected' if group_by == 'month' else ''}>Tháng</option>
+            </select></div>"""
 
-def db_get_dashboard_stats():
-    """Lấy các thống kê chính cho trang chủ (dashboard)."""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    stats = {
-        'total_products': 0,
-        'total_in_transactions': 0,
-        'total_out_transactions': 0,
-        'current_warehouse_value': 0,
-        'total_revenue': 0
-    }
-    try:
-        # 1. Tổng số sản phẩm
-        cursor.execute("SELECT COUNT(id) FROM products")
-        stats['total_products'] = cursor.fetchone()[0]
+    if report_type == 'product_flow':
+        products_db = db_get_all_products(sort_by='name')
+        product_options = "<option value=''>-- Chọn sản phẩm --</option>"
+        for p in products_db:
+            product_options += f"<option value='{p['sku']}' {'selected' if p['sku'] == selected_sku_flow else ''}>{p['name']} ({p['sku']})</option>"
+        body_content += f"""<div><label for="product_sku_flow">Sản phẩm:</label>
+        <select name="product_sku_flow" id="product_sku_flow">{product_options}</select></div>"""
+    
+    body_content += f'<input type="submit" value="Xem" style="margin-top:20px;"></div></form><hr>'
 
-        # 2. Tổng số giao dịch Nhập
-        cursor.execute("SELECT COUNT(id) FROM stock_transactions WHERE transaction_type = 'IN'")
-        stats['total_in_transactions'] = cursor.fetchone()[0]
+    if not chart.MATPLOTLIB_AVAILABLE:
+        body_content += "<p class='error'>Chức năng biểu đồ không khả dụng: Thư viện 'matplotlib' chưa được cài đặt.</p>"
+        return page_title, body_content
+    
+    # Logic vẽ biểu đồ
+    if report_type == 'revenue_by_time':
+        body_content += "<h3>Biểu đồ Doanh thu xuất kho theo thời gian</h3>"
+        revenue_data = db_report.db_get_revenue_data(start_date_filter, end_date_filter, group_by)
+        if revenue_data:
+            periods = [row['period'] for row in revenue_data]
+            revenues = [row['revenue'] for row in revenue_data]
+            chart_title = f"Doanh thu từ {start_date_filter} đến {end_date_filter}"
+            img_base64, err_msg = chart.generate_chart_image_base64(periods, revenues, chart_title, "Doanh thu (VNĐ)", chart_type='bar')
+            if img_base64: body_content += f'<img src="{img_base64}" alt="Biểu đồ doanh thu">'
+            else: body_content += f"<p class='error'>Lỗi tạo biểu đồ: {err_msg}</p>"
+        else: body_content += "<p>Không có dữ liệu doanh thu cho bộ lọc này.</p>"
+    
+    elif report_type == 'product_flow' and selected_sku_flow:
+        product = db_get_product_by_sku(selected_sku_flow)
+        body_content += f"<h3>Biểu đồ Xuất/Nhập cho: {product['name']}</h3>"
+        flow_data = db_report.db_get_product_flow_data(product['id'], start_date_filter, end_date_filter, group_by)
+        if flow_data:
+            periods = sorted(list(set(row['period'] for row in flow_data)))
+            in_q = {p:0 for p in periods}; out_q = {p:0 for p in periods}
+            for row in flow_data:
+                if row['transaction_type'] == 'IN': in_q[row['period']] = row['total_quantity']
+                else: out_q[row['period']] = row['total_quantity']
+            val_in = [in_q[p] for p in periods]; val_out = [out_q[p] for p in periods]
+            chart_title = f"Xuất/Nhập cho {selected_sku_flow}"
+            img_base64, err_msg = chart.generate_chart_image_base64(periods, val_in, chart_title, "Số lượng Nhập/Xuất", chart_type='line', y_values2=val_out, label2='Xuất')
+            if img_base64: body_content += f'<img src="{img_base64}" alt="Biểu đồ xuất nhập">'
+            else: body_content += f"<p class='error'>Lỗi tạo biểu đồ: {err_msg}</p>"
+        else: body_content += "<p>Không có dữ liệu cho sản phẩm và bộ lọc này.</p>"
+    
+    elif report_type == 'revenue_by_product':
+        body_content += "<h3>Thống kê Doanh thu theo Sản phẩm</h3>"
+        revenue_by_prod_data = db_report.db_get_revenue_by_product(start_date_filter, end_date_filter)
+        if revenue_by_prod_data:
+            table_rows, product_names, revenues = "", [], []
+            for item in revenue_by_prod_data:
+                table_rows += f"<tr><td>{item['sku']}</td><td>{item['product_name']}</td><td>{item['total_quantity_sold']}</td><td>{tmpl.format_currency(item['total_revenue'])}</td></tr>"
+                product_names.append(f"{item['product_name']}")
+                revenues.append(item['total_revenue'])
+            body_content += f"<table><thead><tr><th>SKU</th><th>Tên Sản phẩm</th><th>Tổng SL Bán</th><th>Tổng Doanh thu</th></tr></thead><tbody>{table_rows}</tbody></table>"
+            
+            # Biểu đồ
+            max_items = 15
+            chart_title = f"Top {max_items} Sản phẩm theo Doanh thu"
+            img_base64, err_msg = chart.generate_chart_image_base64(product_names[:max_items], revenues[:max_items], chart_title, "Doanh thu (VNĐ)", x_labels_override=product_names[:max_items], chart_type='bar')
+            if img_base64: body_content += f'<h3>Biểu đồ Top Sản phẩm</h3><img src="{img_base64}" alt="Biểu đồ doanh thu theo sản phẩm">'
+            else: body_content += f"<p class='error'>Lỗi tạo biểu đồ: {err_msg}</p>"
+        else: body_content += "<p>Không có dữ liệu doanh thu theo sản phẩm cho bộ lọc này.</p>"
 
-        # 3. Tổng số giao dịch Xuất
-        cursor.execute("SELECT COUNT(id) FROM stock_transactions WHERE transaction_type = 'OUT'")
-        stats['total_out_transactions'] = cursor.fetchone()[0]
-
-        # 4. Giá trị kho hiện tại (Tổng của (tồn kho * đơn giá) cho mỗi sản phẩm)
-        cursor.execute("SELECT SUM(current_stock * price) FROM products")
-        value = cursor.fetchone()[0]
-        stats['current_warehouse_value'] = value if value is not None else 0
-
-        # 5. Tổng doanh thu (Tổng tiền của các giao dịch xuất)
-        cursor.execute("SELECT SUM(total_amount) FROM stock_transactions WHERE transaction_type = 'OUT'")
-        revenue = cursor.fetchone()[0]
-        stats['total_revenue'] = revenue if revenue is not None else 0
-
-    except Exception as e:
-        print(f"Lỗi khi lấy dữ liệu thống kê cho trang chủ: {e}")
-    finally:
-        conn.close()
-
-    return stats
+    return page_title, body_content
