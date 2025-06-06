@@ -4,7 +4,7 @@
 
 Mục tiêu của dự án là áp dụng các kiến thức nền tảng của môn học để xây dựng một hệ thống có cấu trúc tốt, rõ ràng, dễ bảo trì, đáp ứng các nhu cầu thực tiễn về một công cụ quản lý kho hàng tinh gọn và hiệu quả. 
 
-### Thông tin Đồ án
+### Thông tin Bài tập lớn
 * **Môn học:** Kỹ thuật Lập trình - MI3310 
 * **Học kỳ:** 2024.2 
 * **Giảng viên hướng dẫn:** TS. Vũ Thành Nam 
