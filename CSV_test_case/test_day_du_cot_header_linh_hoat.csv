@@ -1,13 +1,13 @@
-SKU,Quantity,donGia,Ghi Chú
-SP-660A3,10,760000,"Giá nhập mới"
-SP-AC73F,20,896000,
-SP-3FAE9,30,,
-SP-F5922,40,152000,"Giữ giá cũ"
-SP-O2E3E,50,,"Hàng khuyến mãi"
-SP-02936,60,813000,
-SP-DCB07,70,,"Kiểm tra chất lượng"
-SP-49ACO,80,,
-SP-DDF1C,90,832000,
-SP-13BEF,100,,"Mẫu thử"
-SP-15D18,110,74000,"Giao từ kho chính"
-SP-E55B4,120,,
+SKU,Quantity,Ghi Chú
+SP-660A3,10,"Ghi chú 1"
+SP-AC73F,20,"Ghi chú 2"
+SP-3FAE9,30,"Ghi chú 3"
+SP-F5922,40,"Ghi chú 4"
+SP-O2E3E,50,
+SP-02936,60,"Ghi chú 6"
+SP-DCB07,70,
+SP-49ACO,80,
+SP-DDF1C,90,"Ghi chú 7"
+SP-13BEF,100,
+SP-15D18,110,
+SP-E55B4,120,"Ghi chú 8"
