@@ -125,3 +125,35 @@ def db_search_products_flexible(search_term):
     products = [dict(row) for row in conn.execute("SELECT id, name, sku, description, unit_of_measure, current_stock, price, updated_at FROM products WHERE sku LIKE ? OR name LIKE ? ORDER BY name ASC", (like_term, like_term)).fetchall()]
     conn.close()
     return products
+    
+def db_update_product(product_id, name, description, unit_of_measure, price):
+    """Cập nhật thông tin chi tiết của một sản phẩm đã có."""
+    conn = get_db_connection()
+    try:
+        current_time = datetime.datetime.now()
+        cursor = conn.cursor()
+        cursor.execute('''
+            UPDATE products 
+            SET name = ?, description = ?, unit_of_measure = ?, price = ?, updated_at = ?
+            WHERE id = ?
+        ''', (name, description, unit_of_measure, int(price), current_time, product_id))
+        conn.commit()
+        return True, f"Cập nhật sản phẩm '{name}' thành công!"
+    except ValueError:
+        return False, "Lỗi: Đơn giá phải là số nguyên hợp lệ."
+    except Exception as e:
+        return False, f"Lỗi khi cập nhật sản phẩm: {e}"
+    finally:
+        conn.close()
+
+def db_delete_product_by_id(product_id):
+    """Xóa một sản phẩm khỏi bảng 'products' dựa trên ID."""
+    conn = get_db_connection()
+    try:
+        conn.execute("DELETE FROM products WHERE id = ?", (product_id,))
+        conn.commit()
+        return True, "Xóa sản phẩm thành công."
+    except Exception as e:
+        return False, f"Lỗi cơ sở dữ liệu khi xóa sản phẩm: {e}"
+    finally:
+        conn.close()

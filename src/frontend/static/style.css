@@ -350,3 +350,117 @@ footer p {
     font-family: var(--font-secondary);
     color: var(--text-dark);
 }
+<<<<<<< HEAD
+=======
+/* Styles cho chức năng xóa */
+a.btn-delete, input.btn-danger {
+    background-color: var(--error-color);
+    color: white;
+    padding: 8px 14px; /* SỬA ĐỔI: Tăng padding để nút to hơn */
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9em;
+    border: none;
+    cursor: pointer;
+}
+a.btn-delete:hover, input.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.warning-text {
+    color: var(--error-color);
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.product-info-box {
+    background-color: #fdf2f2;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+/* ===== PHẦN SỬA ĐỔI CHO CÁC NÚT HÀNH ĐỘNG ===== */
+
+/* Style cho các ô input chỉ đọc (readonly) */
+input[readonly] {
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+    cursor: not-allowed;
+}
+
+/* SỬA ĐỔI: Thêm lại margin-right cho nút Sửa để tạo khoảng cách */
+a.btn-edit {
+    background-color: #A9D18E;
+    color: #333;
+    padding: 8px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-right: 5px; 
+    border: none;
+    cursor: pointer;
+}
+a.btn-edit:hover {
+    background-color: #8CB371;
+}
+
+/* Style cho nút Xóa (màu đỏ) */
+a.btn-delete {
+    background-color: var(--error-color);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9em;
+    border: none;
+    cursor: pointer;
+}
+a.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* Style cho trang xác nhận xóa */
+.warning-text {
+    color: var(--error-color);
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.product-info-box {
+    background-color: #fdf2f2;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+/* Quy tắc ẩn/hiện nút khi di chuột */
+a.btn-edit, a.btn-delete {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+tbody tr:hover a.btn-edit,
+tbody tr:hover a.btn-delete {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+    nav ul {
+        flex-direction: column; 
+        align-items: center;
+    }
+
+    /* Trên di động, luôn hiển thị các nút để dễ thao tác */
+    a.btn-edit, a.btn-delete {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+>>>>>>> c0f4492 (Update remove button and change button)

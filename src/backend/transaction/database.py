@@ -106,3 +106,12 @@ def db_get_transactions_by_date_range(start_date_str, end_date_str):
     transactions = [dict(row) for row in conn.execute(query, tuple(params)).fetchall()]
     conn.close()
     return transactions
+
+def db_check_product_has_transactions(product_id):
+    """Kiểm tra xem một sản phẩm có bất kỳ giao dịch nào không. Trả về True nếu có."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT 1 FROM stock_transactions WHERE product_id = ? LIMIT 1", (product_id,))
+    exists = cursor.fetchone() is not None
+    conn.close()
+    return exists

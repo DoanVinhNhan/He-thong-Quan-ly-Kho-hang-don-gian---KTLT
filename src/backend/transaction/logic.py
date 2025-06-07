@@ -52,9 +52,7 @@ def _process_stock_file(ten_file, transaction_type):
             failure_count += 1
             continue
         
-        # Xác định đơn giá cho giao dịch (ưu tiên từ CSV, nếu không có/lỗi thì lấy từ DB)
-        don_gia_csv_str = row.get('donGiaCSV')
-        unit_price_str = don_gia_csv_str if don_gia_csv_str else str(product.get('price', 0))
+        unit_price_str = str(product.get('price', 0))
 
         # Tạo ghi chú cho giao dịch
         ghi_chu_file = row.get('ghiChu', '').strip()

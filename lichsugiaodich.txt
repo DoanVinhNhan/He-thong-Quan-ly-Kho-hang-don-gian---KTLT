@@ -1,0 +1,5 @@
+[2025-06-07 14:10:58] IN_FILE: 'temp_uploaded_1749280258.358127.csv', TC: 8/15.
+[2025-06-07 14:14:18] IN_FILE: 'temp_uploaded_1749280458.808649.csv', TC: 4/11.
+[2025-06-07 14:14:58] OUT_FILE: 'temp_uploaded_1749280498.621911.csv', TC: 5/12.
+[2025-06-07 14:15:20] OUT_FILE: 'temp_uploaded_1749280520.841436.csv', TC: 6/11.
+[2025-06-07 18:26:49] SUA_SP_WEB: SKU 'SP-33DF8', Tên 'Acecook Thịt Bò Kobe'.
