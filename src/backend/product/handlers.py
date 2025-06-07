@@ -74,13 +74,55 @@ def handle_get_add_product(handler):
     page_title = "Thêm Sản phẩm Mới"
     body_content = """<p>Mã SKU sẽ được tạo tự động.</p>
     <form method="POST" action="/products/add">
-        <div><label for="name">Tên sản phẩm:</label><input type="text" id="name" name="name" required maxlength="100"></div>
-        <div><label for="unit_of_measure">ĐVT:</label><input type="text" id="unit_of_measure" name="unit_of_measure" value="cái" maxlength="20"></div>
-        <div><label for="current_stock">Tồn ban đầu:</label><input type="number" id="current_stock" name="current_stock" value="0" min="0" step="1" required></div>
-        <div><label for="price">Đơn giá (VNĐ):</label><input type="number" id="price" name="price" value="0" min="0" step="1" required></div>
-        <div><label for="description">Mô tả:</label><textarea id="description" name="description" rows="3"></textarea></div>
+        <div>
+            <label for="name">Tên sản phẩm:</label>
+            <input type="text" id="name" name="name" required maxlength="100">
+            <div id="name-validation-msg" class="validation-message">Tên sản phẩm tối đa 100 ký tự.</div>
+        </div>
+        <div>
+            <label for="unit_of_measure">ĐVT:</label>
+            <input type="text" id="unit_of_measure" name="unit_of_measure" value="cái" maxlength="20">
+            <div id="unit-validation-msg" class="validation-message">Đơn vị tính tối đa 20 ký tự.</div>
+        </div>
+        <div>
+            <label for="current_stock">Tồn ban đầu:</label>
+            <input type="number" id="current_stock" name="current_stock" value="0" min="0" step="1" required>
+        </div>
+        <div>
+            <label for="price">Đơn giá (VNĐ):</label>
+            <input type="number" id="price" name="price" value="0" min="0" step="1" required>
+        </div>
+        <div>
+            <label for="description">Mô tả:</label>
+            <textarea id="description" name="description" rows="3" maxlength="255"></textarea>
+            <div id="description-validation-msg" class="validation-message">Mô tả tối đa 255 ký tự.</div>
+        </div>
         <input type="submit" value="Thêm sản phẩm">
-    </form>"""
+    </form>
+    <script>
+        function setupValidation(inputId, msgId) {
+            const input = document.getElementById(inputId);
+            const msg = document.getElementById(msgId);
+            if (!input || !msg) return;
+
+            // Lắng nghe sự kiện 'input' để kiểm tra mỗi khi người dùng nhập liệu
+            input.addEventListener('input', () => {
+                if (input.value.length >= input.maxLength) {
+                    msg.style.display = 'block'; // Hiện thông báo khi đạt giới hạn
+                } else {
+                    msg.style.display = 'none'; // Ẩn thông báo nếu chưa đạt giới hạn
+                }
+            });
+        }
+
+        // Chờ DOM tải xong rồi mới gắn các sự kiện
+        document.addEventListener('DOMContentLoaded', () => {
+            setupValidation('name', 'name-validation-msg');
+            setupValidation('unit_of_measure', 'unit-validation-msg');
+            setupValidation('description', 'description-validation-msg');
+        });
+    </script>
+    """
     return page_title, body_content
 
 def handle_post_add_product(handler, fields):
