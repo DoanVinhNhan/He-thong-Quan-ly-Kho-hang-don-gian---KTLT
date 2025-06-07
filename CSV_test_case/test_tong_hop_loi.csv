@@ -1,0 +1,12 @@
+maSP,soLuong,ghiChu
+SP-7BA9E,15,"Giao dịch hợp lệ đầu tiên"
+SP-XXXXX,10,"Lỗi: SKU này không tồn tại"
+SP-CDBCB,abc,"Lỗi: Số lượng không phải là số"
+,30,"Lỗi: Dòng này thiếu SKU"
+SP-26DE3,,"Lỗi: Dòng này thiếu số lượng"
+SP-BFC17,-5,"Lỗi: Số lượng là số âm"
+SP-238FC,22,"Giao dịch hợp lệ thứ hai"
+SP-7FF98,0,"Lỗi: Số lượng bằng 0"
+SP-D8EC3,35,"Giao dịch hợp lệ thứ ba"
+SP-AC73F,40,
+SP-3FAE9,55,
