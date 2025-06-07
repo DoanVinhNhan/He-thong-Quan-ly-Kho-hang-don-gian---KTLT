@@ -1,52 +1,3 @@
-2025-06-01 08:30:15 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-01 09:45:22 - Thêm sản phẩm DB (web): SKU 'SP-A1B2C'. Thành công.
-2025-06-01 10:15:05 - Giao dịch web IN cho SKU 'SP-A1B2C' thành công. Tồn kho mới: 100.00
-2025-06-01 11:33:19 - Giao dịch web OUT cho SKU 'SP-D4E5F' thành công. Tồn kho mới: 55.00
-2025-06-01 14:02:40 - Thêm sản phẩm DB (web): SKU 'SP-G7H8I'. Thành công.
-2025-06-01 17:00:05 - OUT_FILE: 'xuat_hang_0106.csv', TC: 20/22.
-2025-06-01 17:00:05 - Dòng 15, SKU 'SP-NONEXIST': Sản phẩm không tồn tại.
-2025-06-01 17:00:05 - Dòng 21, SKU 'SP-K1L2M': Lỗi khi xử lý - Không đủ tồn kho.
-2025-06-01 18:10:15 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-01 19:45:22 - Thêm sản phẩm DB (web): SKU 'SP-C3D4E'. Thành công.
-2025-06-01 20:15:05 - Giao dịch web IN cho SKU 'SP-C3D4E' thành công. Tồn kho mới: 120.00
-2025-06-01 21:33:19 - Giao dịch web OUT cho SKU 'SP-A1B2C' thành công. Tồn kho mới: 70.00
-2025-06-01 22:10:00 - Dừng server web MiniVentory.
-2025-06-02 08:32:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-02 09:12:34 - Giao dịch web IN cho SKU 'SP-G7H8I' thành công. Tồn kho mới: 250.00
-2025-06-02 10:55:11 - Giao dịch web OUT cho SKU 'SP-A1B2C' thành công. Tồn kho mới: 80.00
-2025-06-02 11:30:56 - Thêm sản phẩm DB (web): SKU 'SP-N3O4P'. Thành công.
-2025-06-02 14:20:30 - Giao dịch web OUT cho SKU 'SP-D4E5F' thành công. Tồn kho mới: 40.00
-2025-06-02 15:05:15 - IN_FILE: 'nhaphang_0206.csv', TC: 50/50.
-2025-06-02 16:40:48 - Giao dịch web IN cho SKU 'SP-N3O4P' thành công. Tồn kho mới: 300.00
-2025-06-02 18:00:00 - Dừng server web MiniVentory.
-2025-06-02 19:02:40 - Thêm sản phẩm DB (web): SKU 'SP-F6G7H'. Thành công.
-2025-06-02 20:00:05 - OUT_FILE: 'xuat_hang_0206_v2.csv', TC: 10/10.
-2025-06-02 22:10:00 - Dừng server web MiniVentory.
-2025-06-03 08:25:45 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-03 09:05:18 - Giao dịch web OUT cho SKU 'SP-G7H8I' thành công. Tồn kho mới: 230.00
-2025-06-03 10:11:22 - Thêm sản phẩm DB (web): SKU 'SP-Q5R6S'. Thành công.
-2025-06-03 11:45:01 - Lỗi nghiêm trọng khi khởi động server: [Errno 48] Address already in use
-2025-06-03 11:46:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-03 13:30:10 - Giao dịch web IN cho SKU 'SP-Q5R6S' thành công. Tồn kho mới: 50.00
-2025-06-03 14:50:25 - Giao dịch web OUT cho SKU 'SP-A1B2C' thành công. Tồn kho mới: 75.00
-2025-06-03 16:15:33 - OUT_FILE: 'xuat_hang_0306.csv', TC: 12/12.
-2025-06-03 19:30:00 - Dừng server web MiniVentory.
-2025-06-03 19:32:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-03 20:12:34 - Giao dịch web IN cho SKU 'SP-F6G7H' thành công. Tồn kho mới: 180.00
-2025-06-03 21:55:11 - Giao dịch web OUT cho SKU 'SP-C3D4E' thành công. Tồn kho mới: 100.00
-2025-06-03 22:30:56 - Thêm sản phẩm DB (web): SKU 'SP-I9J0K'. Thành công.
-2025-06-04 08:40:10 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-04 09:22:15 - Giao dịch web IN cho SKU 'SP-D4E5F' thành công. Tồn kho mới: 100.00
-2025-06-04 10:35:08 - Thêm sản phẩm DB (web): SKU 'SP-T7U8V'. Thành công.
-2025-06-04 11:11:11 - Giao dịch web OUT cho SKU 'SP-N3O4P' thành công. Tồn kho mới: 280.00
-2025-06-04 12:00:50 - Giao dịch web IN cho SKU 'SP-T7U8V' thành công. Tồn kho mới: 150.00
-2025-06-04 14:45:00 - IN_FILE: 'nhaphang_0406.csv', TC: 30/30.
-2025-06-04 15:30:45 - Giao dịch web OUT cho SKU 'SP-Q5R6S' thành công. Tồn kho mới: 30.00
-2025-06-04 17:50:00 - Dừng server web MiniVentory.
-2025-06-04 18:20:30 - Giao dịch web OUT cho SKU 'SP-A1B2C' thành công. Tồn kho mới: 60.00
-2025-06-04 19:05:15 - IN_FILE: 'nhaphang_0406_extra.csv', TC: 25/25.
-2025-06-04 20:40:48 - Giao dịch web IN cho SKU 'SP-I9J0K' thành công. Tồn kho mới: 90.00
-2025-06-04 21:00:00 - Dừng server web MiniVentory.
 2025-06-04 21:46:37 - Khởi động server web với SQLite DB 'miniventory_sqlite.db'.
 2025-06-04 21:53:00 - Dừng server web.
 2025-06-04 21:54:34 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
@@ -82,7 +33,6 @@
 2025-06-04 23:37:03 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
 2025-06-04 23:50:45 - Dừng server web MiniVentory.
 2025-06-04 23:57:40 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
-2025-06-05 08:20:25 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-05 09:04:06 - Dừng server web MiniVentory.
 2025-06-05 09:04:22 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
 2025-06-05 09:08:58 - Dừng server web MiniVentory.
@@ -93,7 +43,6 @@
 2025-06-05 09:14:18 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
 2025-06-05 09:14:20 - Dừng server web MiniVentory.
 2025-06-05 09:14:44 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng 8001.
-2025-06-05 09:18:33 - Giao dịch web IN cho SKU 'SP-A1B2C' thành công. Tồn kho mới: 125.00
 2025-06-05 09:50:34 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-05 09:50:34 - Lỗi nghiêm trọng khi khởi động server: [Errno 48] Address already in use
 2025-06-05 09:51:38 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
@@ -103,7 +52,6 @@
 2025-06-05 09:54:26 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-05 09:58:33 - Dừng server web MiniVentory.
 2025-06-05 09:58:56 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-05 10:02:10 - Giao dịch web OUT cho SKU 'SP-T7U8V' thành công. Tồn kho mới: 120.00
 2025-06-05 10:02:58 - Dừng server web MiniVentory.
 2025-06-05 10:03:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-05 10:06:09 - Dừng server web MiniVentory.
@@ -117,18 +65,7 @@
 2025-06-05 10:40:31 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-05 11:02:32 - Dừng server web MiniVentory.
 2025-06-05 11:21:08 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-05 11:25:05 - Thêm sản phẩm DB (web): SKU 'SP-W9X0Y'. Thành công.
-2025-06-05 13:10:40 - Giao dịch web IN cho SKU 'SP-W9X0Y' thành công. Tồn kho mới: 200.00
-2025-06-05 14:00:22 - OUT_FILE: 'xuat_hang_0506.csv', TC: 25/25.
-2025-06-05 15:45:19 - Giao dịch web OUT cho SKU 'SP-G7H8I' thành công. Tồn kho mới: 200.00
-2025-06-05 18:45:00 - Dừng server web MiniVentory.
-2025-06-05 19:25:45 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-05 20:05:18 - Giao dịch web OUT cho SKU 'SP-F6G7H' thành công. Tồn kho mới: 150.00
-2025-06-05 21:11:22 - Thêm sản phẩm DB (web): SKU 'SP-L1M2N'. Thành công.
 2025-06-05 21:37:09 - Thêm sản phẩm DB (web): SKU 'SP-30820'. Thành công.
-2025-06-05 22:45:01 - Lỗi nghiêm trọng khi khởi động server: [Errno 48] Address already in use
-2025-06-05 22:46:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-05 23:30:10 - Giao dịch web IN cho SKU 'SP-L1M2N' thành công. Tồn kho mới: 220.00
 2025-06-05 23:39:01 - Dừng server web MiniVentory.
 2025-06-05 23:42:15 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-05 23:50:19 - Dừng server web MiniVentory.
@@ -146,36 +83,8 @@
 2025-06-06 00:05:11 - Dừng server web MiniVentory.
 2025-06-06 00:05:12 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-06 00:05:41 - Dừng server web MiniVentory.
-2025-06-06 08:50:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-06 09:30:12 - Giao dịch web IN cho SKU 'SP-N3O4P' thành công. Tồn kho mới: 330.00
-2025-06-06 10:15:55 - Giao dịch web OUT cho SKU 'SP-W9X0Y' thành công. Tồn kho mới: 180.00
-2025-06-06 11:05:30 - Thêm sản phẩm DB (web): SKU 'SP-Z1A2B'. Thành công.
-2025-06-06 13:55:01 - Giao dịch web IN cho SKU 'SP-Z1A2B' thành công. Tồn kho mới: 80.00
-2025-06-06 14:30:45 - IN_FILE: 'nhaphang_0606.csv', TC: 18/18.
-2025-06-06 15:10:20 - Giao dịch web OUT cho SKU 'SP-T7U8V' thành công. Tồn kho mới: 100.00
-2025-06-06 16:22:00 - Lỗi nghiêm trọng khi khởi động server: [Errno 48] Address already in use
-2025-06-06 16:23:00 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-06 18:50:25 - Giao dịch web OUT cho SKU 'SP-C3D4E' thành công. Tồn kho mới: 85.00
-2025-06-06 19:15:33 - OUT_FILE: 'xuat_hang_0606_evening.csv', TC: 30/30.
-2025-06-06 20:00:00 - Dừng server web MiniVentory.
-2025-06-06 21:30:00 - Dừng server web MiniVentory.
 2025-06-07 01:29:28 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-07 01:29:32 - Dừng server web MiniVentory.
 2025-06-07 01:29:42 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
 2025-06-07 04:19:29 - Thêm sản phẩm (web): SKU 'SP-0A046'. Thành công.
 2025-06-07 04:20:23 - Thêm sản phẩm (web): SKU 'SP-69375'. Thành công.
-2025-06-07 08:15:10 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-07 09:00:30 - Giao dịch web IN cho SKU 'SP-Q5R6S' thành công. Tồn kho mới: 80.00
-2025-06-07 10:45:11 - Giao dịch web OUT cho SKU 'SP-Z1A2B' thành công. Tồn kho mới: 60.00
-2025-06-07 11:55:45 - OUT_FILE: 'xuat_hang_0706_final.csv', TC: 5/6.
-2025-06-07 11:55:45 - Dòng 4, SKU 'SP-INVALID': Sản phẩm không tồn tại.
-2025-06-07 13:20:00 - Giao dịch web IN cho SKU 'SP-D4E5F' thành công. Tồn kho mới: 150.00
-2025-06-07 15:00:00 - Dừng server web MiniVentory.
-2025-06-07 16:40:10 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
-2025-06-07 17:22:15 - Giao dịch web IN cho SKU 'SP-A1B2C' thành công. Tồn kho mới: 100.00
-2025-06-07 18:35:08 - Thêm sản phẩm DB (web): SKU 'SP-O3P4Q'. Thành công.
-2025-06-07 19:11:11 - Giao dịch web OUT cho SKU 'SP-I9J0K' thành công. Tồn kho mới: 70.00
-2025-06-07 20:00:50 - Giao dịch web IN cho SKU 'SP-O3P4Q' thành công. Tồn kho mới: 50.00
-2025-06-07 21:45:00 - IN_FILE: 'nhaphang_0706_night.csv', TC: 10/10.
-2025-06-07 22:30:45 - Giao dịch web OUT cho SKU 'SP-L1M2N' thành công. Tồn kho mới: 200.00
-2025-06-07 23:50:00 - Dừng server web MiniVentory.
