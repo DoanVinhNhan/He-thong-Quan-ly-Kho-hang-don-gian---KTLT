@@ -71,7 +71,7 @@ def handle_get_transactions_history(handler, query_params):
         <div><label for="start_date">Từ ngày:</label><input type="date" id="start_date" name="start_date" value="{start_date_filter}"></div>
         <div><label for="end_date">Đến ngày:</label><input type="date" id="end_date" name="end_date" value="{end_date_filter}"></div>
         <input type="submit" value="Lọc" style="margin-top:0; height: 46px;">
-        <a href="/transactions" class="btn btn-secondary" style='margin-top:0; height: 46px; line-height: 22px;'>Xem lại 7 ngày</a>
+        <a href="/transactions?start_date=&end_date=" class="btn btn-secondary" style='margin-top:0; height: 46px; line-height: 22px;'>Xem lại 7 ngày gần nhất</a>
     </form>
     <table><thead><tr><th>Thời gian</th><th>Mã SKU</th><th>Tên SP</th><th>Loại GD</th><th>Số lượng</th><th>Đơn giá</th><th>Tổng tiền</th><th>Ghi chú</th><th>User</th></tr></thead>
     <tbody>{table_rows}</tbody></table>
@@ -115,7 +115,8 @@ def handle_get_transactions_history(handler, query_params):
 def handle_post_stock_transaction(handler, path, fields):
     """
     Xử lý POST request cho việc nhập và xuất kho.
-    Phân biệt giữa giao dịch thủ công và giao dịch qua file CSV.
+    Hàm này phân biệt giữa giao dịch thủ công và giao dịch qua file CSV
+    dựa trên trường ẩn 'form_action_type'.
     """
     transaction_type = 'IN' if path == '/stock/in' else 'OUT'
     form_action_type = handler.get_form_value(fields, 'form_action_type')
@@ -131,6 +132,7 @@ def handle_post_stock_transaction(handler, path, fields):
         if sku_sp and so_luong_str:
             product = db_get_product_by_sku(sku_sp)
             if product:
+                # Gọi lớp DB để thực hiện giao dịch
                 success, msg_result = db_transaction.db_add_stock_transaction(
                     product['id'], transaction_type, so_luong_str, str(product.get('price', 0)), ghi_chu, user="web_manual"
                 )
@@ -144,11 +146,13 @@ def handle_post_stock_transaction(handler, path, fields):
     elif form_action_type == 'csv_stock_transaction':
         file_content_bytes = handler.get_form_value(fields, 'csvfile')
         if file_content_bytes:
+            # Lưu file tạm thời để xử lý
             temp_file_path = f"temp_uploaded_{datetime.datetime.now().timestamp()}.csv"
             try:
                 with open(temp_file_path, 'wb') as f:
                     f.write(file_content_bytes)
-                
+
+                # Gọi lớp logic để xử lý file
                 if transaction_type == 'IN':
                     processed_ok, result_msg = logic_transaction.nhap_kho_tu_file_csv(temp_file_path)
                 else: # OUT
@@ -160,11 +164,12 @@ def handle_post_stock_transaction(handler, path, fields):
                 message = f"Lỗi nghiêm trọng khi xử lý file: {e}"
                 qldl.ghi_log_loi(f"Xử lý file CSV thất bại ({path}): {e}")
             finally:
+                # Dọn dẹp file tạm
                 if os.path.exists(temp_file_path):
                     os.remove(temp_file_path)
         else:
             message = "Không có file CSV nào được tải lên."
     else:
         message = "Hành động không xác định."
-
+    # Chuyển hướng người dùng về lại trang nhập/xuất kho với thông báo kết quả
     handler.send_redirect(path, message, msg_type)
