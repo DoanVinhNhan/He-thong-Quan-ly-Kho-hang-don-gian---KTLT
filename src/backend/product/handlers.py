@@ -195,7 +195,7 @@ def handle_get_edit_product(handler, product_id):
     product = db_product.db_get_product_by_id(product_id)
     if not product:
         return "Lỗi", "<p>Không tìm thấy sản phẩm.</p>"
-    
+
     body_content = f"""
     <form method="POST" action="/products/edit/{product_id}">
         <div>
@@ -209,10 +209,12 @@ def handle_get_edit_product(handler, product_id):
         <div>
             <label for="name">Tên sản phẩm:</label>
             <input type="text" id="name" name="name" value="{product['name']}" required maxlength="100">
+            <div id="name-validation-msg" class="validation-message">Tên sản phẩm tối đa 100 ký tự.</div>
         </div>
         <div>
             <label for="unit_of_measure">ĐVT:</label>
             <input type="text" id="unit_of_measure" name="unit_of_measure" value="{product.get('unit_of_measure', 'cái')}" maxlength="20">
+            <div id="unit-validation-msg" class="validation-message">Đơn vị tính tối đa 20 ký tự.</div>
         </div>
         <div>
             <label for="price">Đơn giá (VNĐ):</label>
@@ -221,10 +223,34 @@ def handle_get_edit_product(handler, product_id):
         <div>
             <label for="description">Mô tả:</label>
             <textarea id="description" name="description" rows="3" maxlength="255">{product.get('description', '')}</textarea>
+            <div id="description-validation-msg" class="validation-message">Mô tả tối đa 255 ký tự.</div>
         </div>
         <input type="submit" value="Lưu thay đổi">
         <a href="/products_stock" class="btn btn-secondary">Hủy bỏ</a>
     </form>
+    <script>
+        function setupValidation(inputId, msgId) {{
+            const input = document.getElementById(inputId);
+            const msg = document.getElementById(msgId);
+            if (!input || !msg) return;
+
+            // Lắng nghe sự kiện 'input' để kiểm tra mỗi khi người dùng nhập liệu
+            input.addEventListener('input', () => {{
+                if (input.value.length >= input.maxLength) {{
+                    msg.style.display = 'block'; 
+                }} else {{
+                    msg.style.display = 'none';
+                }}
+            }});
+        }}
+
+        // Chờ DOM tải xong rồi mới gắn các sự kiện
+        document.addEventListener('DOMContentLoaded', () => {{
+            setupValidation('name', 'name-validation-msg');
+            setupValidation('unit_of_measure', 'unit-validation-msg');
+            setupValidation('description', 'description-validation-msg');
+        }});
+    </script>
     """
     return page_title, body_content
 
