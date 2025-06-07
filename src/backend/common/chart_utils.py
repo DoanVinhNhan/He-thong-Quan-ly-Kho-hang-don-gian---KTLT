@@ -46,27 +46,32 @@ def generate_chart_image_base64(dates, values, title, ylabel,
     """
     Tạo một biểu đồ (dạng thanh hoặc đường), lưu nó dưới dạng hình ảnh PNG,
     và trả về dưới dạng chuỗi base64 để nhúng vào HTML.
+    Hàm này rất linh hoạt, hỗ trợ nhiều loại dữ liệu và tùy chỉnh.
 
     Args:
-        dates (list): Danh sách các nhãn cho trục X (thường là ngày tháng).
-        values (list): Danh sách các giá trị cho trục Y.
+        dates (list): Danh sách các nhãn cho trục X (thường là ngày tháng dạng chuỗi).
+        values (list): Danh sách các giá trị cho chuỗi dữ liệu thứ nhất trên trục Y.
         title (str): Tiêu đề của biểu đồ.
         ylabel (str): Nhãn của trục Y.
-        x_labels_override (list, optional): Dùng để ghi đè nhãn trên trục X.
-        chart_type (str, optional): 'bar' hoặc 'line'.
+        x_labels_override (list, optional): Dùng để ghi đè nhãn trên trục X khi không dùng ngày tháng.
+        color (str, optional): Màu cho chuỗi dữ liệu thứ nhất.
+        chart_type (str, optional): Loại biểu đồ, 'bar' hoặc 'line'.
         y_values2 (list, optional): Dữ liệu cho chuỗi thứ hai (dùng cho biểu đồ đường kép).
         label2 (str, optional): Nhãn cho chuỗi dữ liệu thứ hai.
+        color2 (str, optional): Màu cho chuỗi dữ liệu thứ hai.
 
     Returns:
         tuple: (chuỗi_base64_hình_ảnh, thông_báo_lỗi)
+               Nếu thành công, thông_báo_lỗi là None.
     """
     if not MATPLOTLIB_AVAILABLE:
-        return None, "Matplotlib chưa được cài đặt."
+        return None, "Thư viện 'matplotlib' chưa được cài đặt, chức năng biểu đồ không khả dụng."
     
     # Khởi tạo một figure và axes để vẽ
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    # Xử lý dữ liệu ngày tháng để vẽ trên trục X
+    # --- Xử lý dữ liệu cho trục X ---
+    # Chuyển đổi chuỗi ngày tháng thành đối tượng datetime để vẽ đúng trên trục thời gian.
     plot_dates_objects = []
     is_monthly_data = False
     if dates:
@@ -74,57 +79,64 @@ def generate_chart_image_base64(dates, values, title, ylabel,
         if all(len(d) == 7 and d.count('-') == 1 for d in dates): 
             is_monthly_data = True
             try: plot_dates_objects = [datetime.datetime.strptime(d + "-01", '%Y-%m-%d') for d in dates]
-            except ValueError: plot_dates_objects = range(len(dates))
+            except ValueError: plot_dates_objects = range(len(dates)) # Fallback nếu format sai
         elif all(len(d) == 10 and d.count('-') == 2 for d in dates):
             try: plot_dates_objects = [datetime.datetime.strptime(d, '%Y-%m-%d') for d in dates]
             except ValueError: plot_dates_objects = range(len(dates))
-        else: # Nếu không phải định dạng ngày, coi như là danh mục
+        else: # Nếu không phải định dạng ngày, coi như là danh mục (vd: tên sản phẩm)
             plot_dates_objects = range(len(dates))
 
-    # Vẽ biểu đồ dựa trên loại được chọn
+    # --- Vẽ biểu đồ ---
+    # Dựa vào tham số chart_type để quyết định vẽ biểu đồ đường hay cột.
     if not plot_dates_objects:
          ax.text(0.5, 0.5, 'Không có dữ liệu để hiển thị', ha='center', va='center', transform=ax.transAxes)
     elif chart_type == 'line':
-        ax.plot(plot_dates_objects, values, marker='o', linestyle='-', color=color, label=ylabel)
+        ax.plot(plot_dates_objects, values, marker='o', linestyle='-', color=color, label=ylabel if not y_values2 else ylabel.split('/')[0])
+        # Vẽ chuỗi dữ liệu thứ hai nếu có
         if y_values2 is not None:
-            ax.plot(plot_dates_objects, y_values2, marker='x', linestyle='-', color=color2, label=label2)
+            ax.plot(plot_dates_objects, y_values2, marker='x', linestyle='-', color=color2, label=label2 if label2 else 'Dữ liệu 2')
         if y_values2 is not None: ax.legend()
     elif chart_type == 'bar':
-        # ... (logic vẽ biểu đồ cột) ...
-        ax.bar(plot_dates_objects, values, color=color, label=ylabel)
+        # Logic tự động điều chỉnh độ rộng của cột cho đẹp mắt
+        bar_width_val = 0.8
+        if len(plot_dates_objects) > 0 and isinstance(plot_dates_objects[0], datetime.datetime):
+            if is_monthly_data: bar_width_val = 20 
+            else: bar_width_val = 0.8
+        ax.bar(plot_dates_objects, values, color=color, width=bar_width_val, label=ylabel)
 
-    # Thiết lập các thuộc tính của biểu đồ
-    ax.set_title(title, fontsize=16)
+    # --- Tùy chỉnh hiển thị cho biểu đồ ---
+    ax.set_title(title, fontsize=16, fontweight='bold')
     ax.set_ylabel(ylabel, fontsize=12)
-    ax.set_xlabel("Thời gian", fontsize=12)
+    ax.set_xlabel("Thời gian" if not x_labels_override else "Sản phẩm", fontsize=12)
     
-    # Định dạng các nhãn trên trục X sao cho dễ đọc
-    if all(isinstance(d, datetime.datetime) for d in plot_dates_objects):
+    # Định dạng các nhãn trên trục X sao cho dễ đọc, đặc biệt với dữ liệu ngày tháng
+    if all(isinstance(d, datetime.datetime) for d in plot_dates_objects) and len(plot_dates_objects) > 0:
         if is_monthly_data:
              ax.xaxis.set_major_formatter(mdates.DateFormatter('%m/%Y'))
         else:
              ax.xaxis.set_major_formatter(mdates.DateFormatter('%d/%m/%y'))
-        fig.autofmt_xdate(rotation=30, ha='right') 
-    elif x_labels_override: 
+        fig.autofmt_xdate(rotation=30, ha='right') # Tự động xoay nhãn cho dễ nhìn
+    elif x_labels_override: # Ghi đè nhãn X nếu được cung cấp (dùng cho biểu đồ theo sản phẩm)
         ax.set_xticks(plot_dates_objects)
         ax.set_xticklabels(x_labels_override, rotation=30, ha='right')
     
-    # Định dạng trục Y cho giá trị tiền tệ
+    # Định dạng trục Y cho giá trị tiền tệ hoặc số nguyên
     if "VNĐ" in ylabel:
         ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: format_currency_for_chart(int(x))))
-    else: # Định dạng cho số nguyên thông thường
+    else: 
         ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: format(int(x), ',')))
-        ax.yaxis.set_major_locator(plt.MaxNLocator(integer=True))
+        ax.yaxis.set_major_locator(plt.MaxNLocator(integer=True)) # Đảm bảo các mốc là số nguyên
 
-    ax.grid(True, linestyle='--', alpha=0.6)
-    fig.tight_layout() 
+    ax.grid(True, linestyle='--', alpha=0.6) # Thêm lưới mờ để dễ theo dõi
+    fig.tight_layout() # Tự động căn chỉnh các thành phần cho vừa vặn
     
-    # Lưu hình ảnh vào một buffer trong bộ nhớ thay vì lưu ra file
+    # --- Chuyển đổi hình ảnh thành chuỗi Base64 ---
+    # Lưu hình ảnh vào một buffer trong bộ nhớ thay vì lưu ra file vật lý
     img_stream = io.BytesIO()
     fig.savefig(img_stream, format='png', dpi=90)
     plt.close(fig) # Đóng figure để giải phóng bộ nhớ
     img_stream.seek(0)
     
-    # Mã hóa hình ảnh thành chuỗi base64
+    # Mã hóa buffer hình ảnh thành chuỗi base64
     img_base64 = base64.b64encode(img_stream.read()).decode('utf-8')
     return f"data:image/png;base64,{img_base64}", None
