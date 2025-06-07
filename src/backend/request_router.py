@@ -25,10 +25,21 @@ class MiniVentoryRequestHandler(BaseHTTPRequestHandler):
     def get_form_value(self, data_dict, key, default=''):
         """
         Trích xuất một giá trị từ dữ liệu form đã được parse.
+        Hàm này giúp lấy dữ liệu an toàn, xử lý trường hợp key không tồn tại
+        và tự động giải mã (decode) dữ liệu bytes.
+
+        Args:
+            data_dict (dict): Dictionary chứa dữ liệu form.
+            key (str): Key của trường dữ liệu cần lấy.
+            default: Giá trị mặc định nếu key không tồn tại.
+
+        Returns:
+            Giá trị của trường form hoặc giá trị mặc định.
         """
         value_list = data_dict.get(key)
         if value_list:
             val = value_list[0]
+            # Xử lý decode cho dữ liệu dạng bytes (trừ file upload).
             if isinstance(val, bytes) and key != 'csvfile': 
                 try: return val.decode('utf-8')
                 except UnicodeDecodeError: return val.decode('latin-1', errors='ignore') 
@@ -69,12 +80,14 @@ class MiniVentoryRequestHandler(BaseHTTPRequestHandler):
         parsed_path = urlparse(self.path)
         path = parsed_path.path
         query_params = parse_qs(parsed_path.query)
+        # Lấy thông báo từ query string (dùng cho việc hiển thị sau khi redirect).
         message = query_params.get('message', [''])[0]
         msg_type = query_params.get('msg_type', ['info'])[0]
 
         page_title = "MiniVentory"
         body_content = ""
 
+        # Phục vụ file CSS.
         if path == f'/{STYLE_CSS_PATH}':
             self._serve_static_file(STYLE_CSS_PATH, 'text/css')
             return
@@ -130,7 +143,8 @@ class MiniVentoryRequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_error(404, "Page Not Found")
             return
-        
+            
+        # Gói nội dung vào template HTML chung và gửi về client.
         html_page = tmpl.html_page_wrapper(page_title, body_content, message, msg_type)
         self._send_response_html(html_page)
 
@@ -138,7 +152,8 @@ class MiniVentoryRequestHandler(BaseHTTPRequestHandler):
         """Xử lý các request POST."""
         parsed_path = urlparse(self.path)
         path = parsed_path.path
-        
+
+        # Phân tích (parse) dữ liệu form từ request body.
         ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
         fields = {}
         if ctype == 'multipart/form-data':
