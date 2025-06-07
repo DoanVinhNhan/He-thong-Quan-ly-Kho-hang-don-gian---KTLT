@@ -65,7 +65,7 @@ def handle_get_transactions_history(handler, query_params):
     else:
         table_rows = "<tr><td colspan='9'>Không có giao dịch nào trong khoảng thời gian đã chọn.</td></tr>"
     
-    # Tạo nội dung HTML cho trang
+    #Kiểm tra và ràng buộc ngày tháng
     body_content = f"""
     <form method="GET" action="/transactions" style="display: flex; align-items: flex-end; gap: 10px; flex-wrap:wrap; margin-bottom:20px;">
         <div><label for="start_date">Từ ngày:</label><input type="date" id="start_date" name="start_date" value="{start_date_filter}"></div>
@@ -74,7 +74,31 @@ def handle_get_transactions_history(handler, query_params):
         <a href="/transactions?start_date=&end_date=" class="btn btn-secondary" style='margin-top:0; height: 46px; line-height: 22px;'>Xem 7 ngày gần nhất</a>
     </form>
     <table><thead><tr><th>Thời gian</th><th>Mã SKU</th><th>Tên SP</th><th>Loại GD</th><th>Số lượng</th><th>Đơn giá</th><th>Tổng tiền</th><th>Ghi chú</th><th>User</th></tr></thead>
-    <tbody>{table_rows}</tbody></table>"""
+    <tbody>{table_rows}</tbody></table>
+    
+    <script>
+        const startDateInput = document.getElementById('start_date');
+        const endDateInput = document.getElementById('end_date');
+
+        function validateDateRange() {{
+            // Khi ngày kết thúc thay đổi, đặt ngày tối đa cho ô "Từ ngày"
+            if (endDateInput.value) {{
+                startDateInput.max = endDateInput.value;
+            }}
+            // Khi ngày bắt đầu thay đổi, đặt ngày tối thiểu cho ô "Đến ngày"
+            if (startDateInput.value) {{
+                endDateInput.min = startDateInput.value;
+            }}
+        }}
+
+        // Gắn sự kiện 'change' cho cả hai ô nhập ngày
+        startDateInput.addEventListener('change', validateDateRange);
+        endDateInput.addEventListener('change', validateDateRange);
+
+        // Chạy hàm một lần khi trang được tải để áp dụng ràng buộc ban đầu
+        document.addEventListener('DOMContentLoaded', validateDateRange);
+    </script>
+    """
     return page_title, body_content
 
 def handle_post_stock_transaction(handler, path, fields):
