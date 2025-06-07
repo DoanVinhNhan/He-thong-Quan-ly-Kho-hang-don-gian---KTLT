@@ -1,12 +1,12 @@
 maSP,soLuong,ghiChu
-SP-7BA9E,15,"Giao dịch hợp lệ đầu tiên"
-SP-XXXXX,10,"Lỗi: SKU này không tồn tại"
-SP-CDBCB,abc,"Lỗi: Số lượng không phải là số"
-,30,"Lỗi: Dòng này thiếu SKU"
-SP-26DE3,,"Lỗi: Dòng này thiếu số lượng"
-SP-BFC17,-5,"Lỗi: Số lượng là số âm"
-SP-238FC,22,"Giao dịch hợp lệ thứ hai"
-SP-7FF98,0,"Lỗi: Số lượng bằng 0"
-SP-D8EC3,35,"Giao dịch hợp lệ thứ ba"
-SP-AC73F,40,
-SP-3FAE9,55,
+SP-DDF1C,25,"Hàng hợp lệ"
+SP-13BEF,18,"Hàng hợp lệ"
+SP-YYYYY,10,"Lỗi: SKU này không tồn tại"
+SP-15D18,33,"Hàng hợp lệ"
+SP-E55B4,xyz,"Lỗi: Số lượng sai định dạng"
+SP-75F8C,44,"Hàng hợp lệ"
+,50,"Lỗi: Thiếu SKU"
+SP-7BA9E,,"Lỗi: Thiếu số lượng"
+SP-CDBC8,28,"Hàng hợp lệ cuối cùng"
+SP-26DE0,60,
+SP-BFC17,38,
