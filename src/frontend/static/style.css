@@ -249,6 +249,14 @@ button.btn-secondary:hover, a.btn-secondary:hover {
     border-color: #bee5eb;
 }
 
+.validation-message {
+    color: var(--error-color);
+    font-size: 0.9em;
+    margin-top: 5px;
+    font-weight: 500;
+    display: none;
+}
+
 pre {
     background-color: #eeeeee;
     padding: 15px;
