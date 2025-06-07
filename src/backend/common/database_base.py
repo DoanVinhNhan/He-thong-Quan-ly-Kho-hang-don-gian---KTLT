@@ -29,7 +29,7 @@ def get_db_connection(db_name=DB_NAME):
     # Tạo kết nối
     conn = sqlite3.connect(db_name, detect_types=sqlite3.PARSE_DECLTYPES)
     
-    # Thiết lập row_factory để kết quả trả về có thể được truy cập như dictionary
+    # Thiết lập row_factory để kết quả trả về có thể được truy cập như dictionary (cho phép truy cập theo tên cột - ánh xạ tên cột )
     conn.row_factory = sqlite3.Row
     
     return conn
