@@ -66,7 +66,7 @@ def handle_get_transactions_history(handler, query_params):
         table_rows = "<tr><td colspan='9'>Không có giao dịch nào trong khoảng thời gian đã chọn.</td></tr>"
     
     #Kiểm tra và ràng buộc ngày tháng
-    body_content = f"""
+        body_content = f"""
     <form method="GET" action="/transactions" style="display: flex; align-items: flex-end; gap: 10px; flex-wrap:wrap; margin-bottom:20px;">
         <div><label for="start_date">Từ ngày:</label><input type="date" id="start_date" name="start_date" value="{start_date_filter}"></div>
         <div><label for="end_date">Đến ngày:</label><input type="date" id="end_date" name="end_date" value="{end_date_filter}"></div>
@@ -81,32 +81,21 @@ def handle_get_transactions_history(handler, query_params):
         const endDateInput = document.getElementById('end_date');
 
         function validateDateRange() {{
-<<<<<<< HEAD
             // Khi ngày kết thúc thay đổi, đặt ngày tối đa cho ô "Từ ngày"
             if (endDateInput.value) {{
                 startDateInput.max = endDateInput.value;
             }}
             // Khi ngày bắt đầu thay đổi, đặt ngày tối thiểu cho ô "Đến ngày"
-=======
-            if (endDateInput.value) {{
-                startDateInput.max = endDateInput.value;
-            }}
->>>>>>> c0f4492 (Update remove button and change button)
             if (startDateInput.value) {{
                 endDateInput.min = startDateInput.value;
             }}
         }}
 
-<<<<<<< HEAD
         // Gắn sự kiện 'change' cho cả hai ô nhập ngày
         startDateInput.addEventListener('change', validateDateRange);
         endDateInput.addEventListener('change', validateDateRange);
 
         // Chạy hàm một lần khi trang được tải để áp dụng ràng buộc ban đầu
-=======
-        startDateInput.addEventListener('change', validateDateRange);
-        endDateInput.addEventListener('change', validateDateRange);
->>>>>>> c0f4492 (Update remove button and change button)
         document.addEventListener('DOMContentLoaded', validateDateRange);
     </script>
     """
