@@ -11,7 +11,7 @@ import uuid
 import time # Để theo dõi và in ra thời gian thực thi của các tác vụ
 
 # --- Cấu hình Database ---
-DB_NAME = 'miniventory_sqlite.db' # Đổi tên DB để không ghi đè file cũ
+DB_NAME = 'miniventory_sqlite.db' 
 
 # --- Xử lý tương thích kiểu dữ liệu Datetime với SQLite ---
 def adapt_datetime_iso(val):
