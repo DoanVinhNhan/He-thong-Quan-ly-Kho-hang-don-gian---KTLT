@@ -350,8 +350,6 @@ footer p {
     font-family: var(--font-secondary);
     color: var(--text-dark);
 }
-<<<<<<< HEAD
-=======
 /* Styles cho chức năng xóa */
 a.btn-delete, input.btn-danger {
     background-color: var(--error-color);
@@ -379,8 +377,6 @@ a.btn-delete:hover, input.btn-danger:hover {
     margin: 20px 0;
     border-radius: 5px;
 }
-/* ===== PHẦN SỬA ĐỔI CHO CÁC NÚT HÀNH ĐỘNG ===== */
-
 /* Style cho các ô input chỉ đọc (readonly) */
 input[readonly] {
     background-color: #ecf0f1;
@@ -463,4 +459,3 @@ tbody tr:hover a.btn-delete {
         visibility: visible;
     }
 }
->>>>>>> c0f4492 (Update remove button and change button)
