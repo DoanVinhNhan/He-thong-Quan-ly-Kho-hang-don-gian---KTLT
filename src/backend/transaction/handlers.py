@@ -66,7 +66,7 @@ def handle_get_transactions_history(handler, query_params):
         table_rows = "<tr><td colspan='9'>Không có giao dịch nào trong khoảng thời gian đã chọn.</td></tr>"
     
     #Kiểm tra và ràng buộc ngày tháng
-        body_content = f"""
+    body_content = f"""
     <form method="GET" action="/transactions" style="display: flex; align-items: flex-end; gap: 10px; flex-wrap:wrap; margin-bottom:20px;">
         <div><label for="start_date">Từ ngày:</label><input type="date" id="start_date" name="start_date" value="{start_date_filter}"></div>
         <div><label for="end_date">Đến ngày:</label><input type="date" id="end_date" name="end_date" value="{end_date_filter}"></div>

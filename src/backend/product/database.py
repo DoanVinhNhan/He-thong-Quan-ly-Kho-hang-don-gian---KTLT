@@ -117,10 +117,13 @@ def db_get_all_products(sort_by='name', order='ASC'):
     conn.close()
     return products
 
-def db_get_product_by_id(product_id):
+def db_get_product_by_id(product_id, include_hidden=False):
     """Lấy thông tin một sản phẩm dựa trên ID."""
     conn = get_db_connection()
-    product_data = conn.execute("SELECT * FROM products WHERE id = ? AND is_deleted = 0", (product_id,)).fetchone()
+    query = "SELECT * FROM products WHERE id = ?"
+    if not include_hidden:
+        query += " AND is_deleted = 0"
+    product_data = conn.execute(query, (product_id,)).fetchone()
     conn.close()
     return dict(product_data) if product_data else None
 
@@ -197,4 +200,45 @@ def db_delete_product_by_id(product_id):
         return False, f"Lỗi cơ sở dữ liệu khi xóa sản phẩm: {e}"
     finally:
         conn.close()
+        
+def db_get_all_hidden_products(sort_by='name', order='ASC'):
+    """
+    Lấy tất cả sản phẩm đã bị ẩn (is_deleted = 1) từ cơ sở dữ liệu.
+    """
+    conn = get_db_connection()
+    valid_sort_columns = ['name', 'sku', 'current_stock', 'price', 'updated_at', 'id', 'unit_of_measure']
+    if sort_by not in valid_sort_columns: sort_by = 'name'
+    order_direction = 'ASC' if order.upper() == 'ASC' else 'DESC'
+    
+    # THAY ĐỔI: Thêm điều kiện `WHERE is_deleted = 1`
+    query = f"SELECT id, name, sku, description, unit_of_measure, current_stock, price, updated_at FROM products WHERE is_deleted = 1 ORDER BY {sort_by} {order_direction}, id {order_direction}"
+    products = [dict(row) for row in conn.execute(query).fetchall()]
+    conn.close()
+    return products
 
+def db_restore_product_by_id(product_id):
+    """
+    Khôi phục một sản phẩm đã ẩn bằng cách cập nhật cờ is_deleted = 0.
+    """
+    conn = get_db_connection()
+    try:
+        current_time = datetime.datetime.now()
+        product_info = conn.execute("SELECT sku, name FROM products WHERE id = ?", (product_id,)).fetchone()
+
+        if not product_info:
+            return False, f"Lỗi: Không tìm thấy sản phẩm với ID {product_id} để khôi phục."
+
+        conn.execute("UPDATE products SET is_deleted = 0, updated_at = ? WHERE id = ?", (current_time, product_id))
+        conn.commit()
+        
+        sku = product_info['sku']
+        product_name = product_info['name']
+        success_message = f"Hiển thị lại sản phẩm {sku} - {product_name} thành công"
+        
+        return True, success_message
+        
+    except Exception as e:
+        conn.rollback()
+        return False, f"Lỗi cơ sở dữ liệu khi khôi phục sản phẩm: {e}"
+    finally:
+        conn.close()

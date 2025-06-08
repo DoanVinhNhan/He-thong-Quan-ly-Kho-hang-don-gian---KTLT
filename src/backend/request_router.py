@@ -131,6 +131,9 @@ class MiniVentoryRequestHandler(BaseHTTPRequestHandler):
             except (IndexError, ValueError):
                 self.send_error(404, "Page Not Found")
                 return
+                
+        elif path == '/products/hidden':
+            page_title, body_content = product_handlers.handle_get_hidden_products_list(self)
         
         elif path in ['/stock/in', '/stock/out']:
             page_title, body_content = transaction_handlers.handle_get_stock_in_out(self, path)
@@ -179,6 +182,13 @@ class MiniVentoryRequestHandler(BaseHTTPRequestHandler):
             except (IndexError, ValueError):
                 self.send_error(400, "Bad Request")
                 
+        elif path.startswith('/products/restore/'):
+            try:
+                product_id = int(path.split('/')[-1])
+                product_handlers.handle_post_restore_product(self, product_id)
+            except (IndexError, ValueError):
+                self.send_error(400, "Bad Request")
+
         elif path == '/products/add':
             product_handlers.handle_post_add_product(self, fields)
             

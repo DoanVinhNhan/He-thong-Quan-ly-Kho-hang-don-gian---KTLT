@@ -68,11 +68,11 @@ nav ul {
     margin: 0;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+    flex-wrap: wrap;
 }
 
 nav li {
-    margin: 0.5em 10px; /* Thêm margin cho responsive tốt hơn */
+    margin: 0.5em 10px; 
 }
 
 nav li a {
@@ -90,7 +90,7 @@ nav li a:hover, nav li a.active {
 
 .container {
     width: 90%;
-    max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+    max-width: 1200px;
     margin: 30px auto;
     background-color: var(--container-bg-color);
     padding: 25px 30px;
@@ -126,29 +126,29 @@ table {
 
 th, td {
     border: 1px solid var(--border-color);
-    padding: 12px 15px; /* Tăng padding */
+    padding: 12px 15px;
     text-align: left;
     vertical-align: middle;
 }
 
-thead th { /* Chú ý thead th */
+thead th { 
     background-color: var(--table-header-bg);
     font-weight: 600;
     font-family: var(--font-secondary);
     color: var(--secondary-color);
 }
 
-tbody tr:nth-child(even) td { /* Chú ý tbody tr td */
+tbody tr:nth-child(even) td {
     background-color: var(--table-row-even-bg);
 }
 
-tbody tr:hover td { /* Chú ý tbody tr td */
-    background-color: #e8f4fd; /* Màu hover nhẹ nhàng */
+tbody tr:hover td {
+    background-color: #e8f4fd;
 }
 
 form {
     margin-top: 20px;
-    padding-bottom: 20px; /* Thêm khoảng cách dưới form */
+    padding-bottom: 20px;
 }
 hr.form-section-divider {
     margin: 40px 0;
@@ -230,8 +230,8 @@ button.btn-secondary:hover, a.btn-secondary:hover {
     border-radius: 5px;
     font-weight: 500;
     border: 1px solid transparent;
-    word-wrap: break-word; /* Đảm bảo message dài sẽ xuống dòng */
-    white-space: pre-wrap; /* Giữ lại các xuống dòng từ \n đã được chuyển thành <br> */
+    word-wrap: break-word; 
+    white-space: pre-wrap;
 }
 .success {
     color: #155724;
@@ -282,28 +282,6 @@ footer p {
     margin: 0;
 }
 
-@media (max-width: 768px) {
-    .container {
-        width: 95%;
-        padding: 20px;
-    }
-    nav ul {
-        flex-direction: column; 
-        align-items: center;
-    }
-    nav li {
-        margin: 5px 0;
-    }
-    form input[type="text"],
-    form input[type="number"],
-    form input[type="file"],
-    form input[type="password"],
-    form textarea,
-    form select {
-        font-size: 1em; 
-    }
-}
-
 .dashboard-wrapper {
     margin-top: 30px;
     display: flex;
@@ -329,7 +307,6 @@ footer p {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hiệu ứng đẹp mắt khi người dùng di chuột vào */
 .stat-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-md);
@@ -350,41 +327,14 @@ footer p {
     font-family: var(--font-secondary);
     color: var(--text-dark);
 }
-/* Styles cho chức năng xóa */
-a.btn-delete, input.btn-danger {
-    background-color: var(--error-color);
-    color: white;
-    padding: 8px 14px; /* SỬA ĐỔI: Tăng padding để nút to hơn */
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.9em;
-    border: none;
-    cursor: pointer;
-}
-a.btn-delete:hover, input.btn-danger:hover {
-    background-color: #c0392b;
-}
 
-.warning-text {
-    color: var(--error-color);
-    font-weight: bold;
-    font-size: 1.1em;
-}
-.product-info-box {
-    background-color: #fdf2f2;
-    border: 1px solid #f5c6cb;
-    padding: 15px;
-    margin: 20px 0;
-    border-radius: 5px;
-}
-/* Style cho các ô input chỉ đọc (readonly) */
+
 input[readonly] {
     background-color: #ecf0f1;
     color: #7f8c8d;
     cursor: not-allowed;
 }
 
-/* SỬA ĐỔI: Thêm lại margin-right cho nút Sửa để tạo khoảng cách */
 a.btn-edit {
     background-color: #A9D18E;
     color: #333;
@@ -400,8 +350,7 @@ a.btn-edit:hover {
     background-color: #8CB371;
 }
 
-/* Style cho nút Xóa (màu đỏ) */
-a.btn-delete {
+a.btn-delete, input.btn-danger {
     background-color: var(--error-color);
     color: white;
     padding: 8px 14px;
@@ -411,11 +360,25 @@ a.btn-delete {
     border: none;
     cursor: pointer;
 }
-a.btn-delete:hover {
+a.btn-delete:hover, input.btn-danger:hover {
     background-color: #c0392b;
 }
 
-/* Style cho trang xác nhận xóa */
+button.btn-restore {
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    padding: 8px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9em;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+button.btn-restore:hover {
+    background-color: #dab10d;
+}
+
 .warning-text {
     color: var(--error-color);
     font-weight: bold;
@@ -429,15 +392,15 @@ a.btn-delete:hover {
     border-radius: 5px;
 }
 
-/* Quy tắc ẩn/hiện nút khi di chuột */
-a.btn-edit, a.btn-delete {
+a.btn-edit, a.btn-delete, button.btn-restore {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
 }
 
 tbody tr:hover a.btn-edit,
-tbody tr:hover a.btn-delete {
+tbody tr:hover a.btn-delete,
+tbody tr:hover button.btn-restore {
     opacity: 1;
     visibility: visible;
 }
@@ -452,10 +415,16 @@ tbody tr:hover a.btn-delete {
         flex-direction: column; 
         align-items: center;
     }
-
-    /* Trên di động, luôn hiển thị các nút để dễ thao tác */
-    a.btn-edit, a.btn-delete {
+    
+    a.btn-edit, a.btn-delete, button.btn-restore {
         opacity: 1;
         visibility: visible;
     }
+.cell-center {
+    text-align: center;
+    vertical-align: middle;
+
+    display: flex;
+    justify-content: center;
+    align-items: center; 
 }

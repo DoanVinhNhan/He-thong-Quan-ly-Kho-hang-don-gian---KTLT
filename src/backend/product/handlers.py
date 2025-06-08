@@ -63,13 +63,19 @@ def handle_get_products_stock(handler, query_params):
             table_rows += f"""<tr><td>{p.get('sku','N/A')}</td><td>{p.get('name','N/A')}</td>
                 <td>{p.get('unit_of_measure','N/A')}</td><td>{p.get('current_stock','N/A')}</td>
                 <td>{tmpl.format_currency(p.get('price','N/A'))}</td><td>{p.get('description','')}</td>
-                <td>{edit_button_html} {delete_button_html}</td></tr>"""
+                <td class="cell-center">{edit_button_html} {delete_button_html}</td></tr>"""
     else:
         # Cập nhật colspan thành 7
         table_rows = "<tr><td colspan='7'>Không tìm thấy sản phẩm nào.</td></tr>"
 
     # Hoàn thiện bảng và thêm nút "Thêm sản phẩm"
-    body_content += f"""<p><a href="/products/add" class="btn">Thêm sản phẩm mới</a></p>
+    body_content += f"""
+        <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+            <a href="/products/add" class="btn">Thêm sản phẩm mới</a>
+            <a href="/products/hidden" class="btn btn-secondary">Xem danh sách đã ẩn</a>
+        </div>
+    """
+    body_content +=f"""
         <table>
             <thead>
                 <tr>
@@ -327,3 +333,67 @@ def handle_post_add_product(handler, fields):
     # Chuyển hướng người dùng đến trang danh sách (nếu thành công) hoặc về lại form (nếu lỗi)
     redirect_url = "/products_stock" if msg_type == "success" else "/products/add"
     handler.send_redirect(redirect_url, message, msg_type)
+
+# /src/backend/product/handlers.py
+
+def handle_get_hidden_products_list(handler):
+    """
+    Xử lý GET request cho trang danh sách các sản phẩm đã bị ẩn.
+    Hàm này lấy danh sách các sản phẩm có cờ is_deleted = 1 từ DB,
+    sau đó tạo ra một trang HTML hiển thị chúng trong một bảng.
+    Mỗi hàng trong bảng sẽ có nút "Hiển thị lại".
+
+    Args:
+        handler: Đối tượng request handler.
+
+    Returns:
+        tuple: (str_tiêu_đề_trang, str_nội_dung_html) để hiển thị cho người dùng.
+    """
+    page_title = "Danh sách Sản phẩm đã ẩn"
+    products_data = db_product.db_get_all_hidden_products()
+    
+    table_rows = ""
+    if products_data:
+        for p in products_data:
+            # Nút khôi phục sẽ là một form POST
+            restore_button_html = f"""
+            <form method="POST" action="/products/restore/{p['id']}" style="display:inline;">
+                <button type="submit" class="btn btn-restore" title="Hiển thị lại sản phẩm này">Hiển thị lại</button>
+            </form>
+            """
+            table_rows += f"""<tr><td>{p.get('sku','N/A')}</td><td>{p.get('name','N/A')}</td>
+                <td>{p.get('unit_of_measure','N/A')}</td><td>{p.get('current_stock','N/A')}</td>
+                <td>{tmpl.format_currency(p.get('price','N/A'))}</td><td>{p.get('description','')}</td>
+                <td class="cell-center">{restore_button_html}</td></tr>"""
+    else:
+        table_rows = "<tr><td colspan='7'>Không có sản phẩm nào đang bị ẩn.</td></tr>"
+
+    body_content = f"""
+        <p><a href="/products_stock" class="btn btn-secondary">Quay lại danh sách chính</a></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã SKU</th><th>Tên SP</th><th>ĐVT</th><th>Tồn kho</th>
+                    <th>Đơn giá</th><th>Mô tả</th><th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>{table_rows}</tbody>
+        </table>
+    """
+    return page_title, body_content
+    
+def handle_post_restore_product(handler, product_id):
+    """
+    Xử lý POST request để khôi phục (hiển thị lại) một sản phẩm đã bị ẩn.
+    Hàm này nhận ID sản phẩm, gọi đến lớp logic để cập nhật trạng thái
+    sản phẩm trong DB, và sau đó chuyển hướng người dùng về lại trang
+    danh sách các sản phẩm đã ẩn kèm theo một thông báo kết quả.
+
+    Args:
+        handler: Đối tượng request handler, dùng để chuyển hướng.
+        product_id (int): ID của sản phẩm cần khôi phục.
+    """
+    success, message = logic_product.khoi_phuc_san_pham(product_id)
+    msg_type = "success" if success else "error"
+    # Chuyển hướng về lại trang danh sách ẩn với thông báo
+    handler.send_redirect("/products/hidden", message, msg_type)

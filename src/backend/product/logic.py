@@ -96,3 +96,18 @@ def xoa_san_pham(product_id):
         qldl.ghi_log_loi(f"Xoá mềm sản phẩm (web): SKU '{product['sku']}'. Thành công.")
 
     return success, message
+
+def khoi_phuc_san_pham(product_id):
+    """
+    Logic nghiệp vụ để khôi phục (hiển thị lại) một sản phẩm.
+    """
+    product = db_product.db_get_product_by_id(product_id, include_hidden=True) # Cần sửa db_get_product_by_id để có thể tìm cả sp ẩn
+    if not product:
+        return False, "Sản phẩm không tồn tại."
+
+    success, message = db_product.db_restore_product_by_id(product_id)
+    if success:
+        qldl.ghi_log_giao_dich(f"KHOI_PHUC_SP_WEB: SKU '{product['sku']}', Tên '{product['name']}'.")
+        qldl.ghi_log_loi(f"Khôi phục sản phẩm (web): SKU '{product['sku']}'. Thành công.")
+
+    return success, message
