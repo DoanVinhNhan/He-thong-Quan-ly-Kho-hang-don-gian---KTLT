@@ -40,25 +40,16 @@ def them_san_pham_moi(sku, name, unit_of_measure, current_stock_str, price_str, 
     except ValueError:
         return False, "Lỗi: Số lượng tồn và đơn giá phải là số hợp lệ."
 
-    # --- Bước 2: Kiểm tra sự tồn tại của SKU ---
-    # Mặc dù SKU được tạo duy nhất, vẫn kiểm tra lại để đảm bảo an toàn
-    existing_product = db_product.db_get_product_by_sku(sku)
-    if existing_product:
-        msg = f"Lỗi: Mã SKU '{sku}' đã tồn tại. Vui lòng thử lại."
-        qldl.ghi_log_loi(f"Thêm sản phẩm thất bại (SKU trùng): {msg}")
-        return False, msg
-
-    # --- Bước 3: Gọi lớp database để thực hiện thêm mới ---
-    product_id, add_msg = db_product.db_add_product(name, sku, description, unit_of_measure, current_stock, price)
+    # Gọi hàm DB mới để thực hiện thêm sản phẩm và giao dịch ban đầu
+    product_id, add_msg = db_product.db_add_product(
+        name, sku, description, unit_of_measure, current_stock, price
+    )
     
-    # --- Bước 4: Xử lý kết quả và ghi log ---
     if product_id:
-        # Ghi log thành công
         qldl.ghi_log_giao_dich(f"THEM_SP_WEB: SKU '{sku}', Tên '{name}'.")
         qldl.ghi_log_loi(f"Thêm sản phẩm (web): SKU '{sku}'. Thành công.")
         return True, add_msg
     else:
-        # Ghi log thất bại
         qldl.ghi_log_loi(f"Thêm sản phẩm thất bại cho SKU '{sku}' (web): {add_msg}")
         return False, add_msg
         
@@ -92,23 +83,16 @@ def sua_san_pham(product_id, name, unit_of_measure, price_str, description):
 def xoa_san_pham(product_id):
     """
     Logic nghiệp vụ để xóa một sản phẩm.
-    Kiểm tra sản phẩm tồn tại và không có giao dịch liên quan trước khi xóa.
     """
     # Bước 1: Kiểm tra sản phẩm có tồn tại không
     product = db_product.db_get_product_by_id(product_id)
     if not product:
         return False, "Sản phẩm không tồn tại."
 
-    # Bước 2: Kiểm tra sản phẩm có giao dịch liên quan không
-    if db_check_product_has_transactions(product_id):
-        msg = f"Không thể xóa sản phẩm '{product['name']}' (SKU: {product['sku']}) vì đã có lịch sử giao dịch."
-        qldl.ghi_log_loi(f"Xóa sản phẩm thất bại (có giao dịch): SKU '{product['sku']}'")
-        return False, msg
-
     # Bước 3: Gọi lớp database để xóa
     success, message = db_product.db_delete_product_by_id(product_id)
     if success:
-        qldl.ghi_log_giao_dich(f"XOA_SP_WEB: SKU '{product['sku']}', Tên '{product['name']}'.")
-        qldl.ghi_log_loi(f"Xóa sản phẩm (web): SKU '{product['sku']}'. Thành công.")
+        qldl.ghi_log_giao_dich(f"XOA_MEM_SP_WEB: SKU '{product['sku']}', Tên '{product['name']}'.")
+        qldl.ghi_log_loi(f"Xoá mềm sản phẩm (web): SKU '{product['sku']}'. Thành công.")
 
     return success, message

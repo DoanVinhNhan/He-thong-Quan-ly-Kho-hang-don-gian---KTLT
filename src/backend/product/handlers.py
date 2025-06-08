@@ -57,7 +57,7 @@ def handle_get_products_stock(handler, query_params):
             # Tạo HTML cho mỗi nút
             edit_button_html = f'<a href="/products/edit/{p["id"]}" class="btn btn-edit">Sửa</a>'
             # SỬA ĐỔI: Thêm class 'btn' cho nút Xóa để đảm bảo nó nằm cùng hàng
-            delete_button_html = f'<a href="/products/delete/{p["id"]}" class="btn btn-delete">Xóa</a>'
+            delete_button_html = f'<a href="/products/delete/{p["id"]}" class="btn btn-delete">Ẩn</a>'
             
             # Gộp 2 nút vào chung một ô <td>
             table_rows += f"""<tr><td>{p.get('sku','N/A')}</td><td>{p.get('name','N/A')}</td>
@@ -150,28 +150,32 @@ def handle_get_delete_product_confirmation(handler, product_id):
     người dùng xác nhận trước khi thực hiện hành động xóa vĩnh viễn.
 
     Args:
-        handler: Đối tượng request handler, dùng để gửi phản hồi.
+        handler: Đối tượng request handler, dùng để gửi phản hồi Ẩn
         product_id (int): ID của sản phẩm cần xóa.
 
     Returns:
         tuple: (str_tiêu_đề_trang, str_nội_dung_html) để hiển thị cho người dùng.
                Trả về thông báo lỗi nếu không tìm thấy sản phẩm.
     """
-    page_title = "Xác nhận Xóa Sản phẩm"
+    page_title = "Xác nhận Ẩn Sản phẩm"
     product = db_product.db_get_product_by_id(product_id)
+    
+    # Kiểm tra xem sản phẩm có tồn tại không
     if not product:
+        # Trả về thông báo lỗi nếu không tìm thấy sản phẩm, tránh lỗi ở dưới
         return "Lỗi", "<p>Không tìm thấy sản phẩm.</p>"
 
+    # Nội dung đã được cập nhật cho chức năng "ẩn" sản phẩm
     body_content = f"""
-    <p class="warning-text">Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
+    <p class="warning-text">Bạn có chắc chắn muốn ẩn sản phẩm này không?</p>
     <div class='product-info-box'>
         <strong>Tên sản phẩm:</strong> {product['name']}<br>
         <strong>SKU:</strong> {product['sku']}<br>
         <strong>Tồn kho hiện tại:</strong> {product['current_stock']}
     </div>
-    <p><strong>Lưu ý:</strong> Hành động này không thể hoàn tác. Sản phẩm chỉ có thể bị xóa nếu chưa có giao dịch nào liên quan.</p>
+    <p><strong>Lưu ý:</strong> Sản phẩm sẽ bị ẩn khỏi tất cả các danh sách và không thể thực hiện giao dịch mới. Lịch sử giao dịch cũ vẫn được giữ lại.</p>
     <form method="POST" action="/products/delete/{product_id}" style="display:inline-block; margin-right: 10px;">
-        <input type="submit" value="Đồng ý Xóa" class="btn-danger">
+        <input type="submit" value="Đồng ý Ẩn" class="btn-danger">
     </form>
     <a href="/products_stock" class="btn btn-secondary">Hủy bỏ</a>
     """
