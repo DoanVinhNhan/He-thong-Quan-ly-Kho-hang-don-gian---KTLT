@@ -179,3 +179,9 @@
 2025-06-08 14:05:09 - Khôi phục sản phẩm (web): SKU 'SP-949E6'. Thành công.
 2025-06-08 14:05:23 - Xoá mềm sản phẩm (web): SKU 'SP-949E6'. Thành công.
 2025-06-08 14:06:42 - Dừng server web MiniVentory.
+2025-06-08 14:32:06 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-08 14:32:48 - Dừng server web MiniVentory.
+2025-06-08 14:33:55 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-08 14:44:19 - Dừng server web MiniVentory.
+2025-06-08 14:44:20 - Khởi động server web MiniVentory với SQLite DB 'miniventory_sqlite.db' tại cổng localhost:8001.
+2025-06-08 14:44:29 - Dừng server web MiniVentory.
