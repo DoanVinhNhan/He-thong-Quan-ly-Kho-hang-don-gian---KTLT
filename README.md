@@ -97,3 +97,17 @@ Hệ thống cung cấp đầy đủ các chức năng quản lý kho cơ bản:
 Để chạy server, hãy thực thi lệnh sau từ thư mục gốc của dự án:
 ```bash
 python -m src.main
+```
+Sử dụng trình duyệt, truy cập
+```bash
+http://localhost:8001/
+```
+Trong trường hợp cổng 8001 đã có chương trình khác chiếm giữ
+```bash
+lsof -i :8001
+```
+Để xem ứng chương trình đang chạy, và sử dụng kill để kết thúc chương trình
+```bash
+kill -9 <PID>
+```
+Sau đó, thực hiện chạy sever như cũ.
