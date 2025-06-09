@@ -1,13 +1,8 @@
 SKU,Quantity,Ghi Chú
-SP-660A3,10,"Ghi chú 1"
-SP-AC73F,20,"Ghi chú 2"
-SP-3FAE9,30,"Ghi chú 3"
-SP-F5922,40,"Ghi chú 4"
-SP-O2E3E,50,
-SP-02936,60,"Ghi chú 6"
-SP-DCB07,70,
-SP-49ACO,80,
-SP-DDF1C,90,"Ghi chú 7"
-SP-13BEF,100,
-SP-15D18,110,
-SP-E55B4,120,"Ghi chú 8"
+SP-B69D7,10,"Giá nhập mới"
+SP-6FCF7,20,
+SP-3FAE9,30,
+SP-F5922,40,"Giữ giá cũ"
+SP-O2E3E,50,"Hàng khuyến mãi"
+SP-02936,60,
+SP-5A2CB,70,"Kiểm tra chất lượng"
