@@ -106,7 +106,7 @@ Trong trường hợp cổng 8001 đã có chương trình khác chiếm giữ
 ```bash
 lsof -i :8001
 ```
-Để xem ứng chương trình đang chạy, và sử dụng kill để kết thúc chương trình
+Để xem ứng chương trình đang chạy, và sử dụng kill <PID của chương trình đang chạy> để kết thúc chương trình
 ```bash
 kill -9 <PID>
 ```
